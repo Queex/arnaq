@@ -29,6 +29,7 @@ counts are restricted to the ERCC spike-ins and concentration estimates construc
 values.
 }
 \details{
-The \code{samples.txt} file (and hence \code{sample.metadata}) should contain ERCC mix data when this function is
+The \code{samples.txt} file (and hence \code{sample.metadata}) should contain ERCC mix data when this
+function is
 used; a column named \code{ERCC} containing the values 1 and 2 to specify which mix.
 }

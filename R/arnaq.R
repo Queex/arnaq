@@ -176,6 +176,9 @@ arnaq <- function(resources.file = "resources.yml",
   # Load data
   count.data <<- read.count.data(c("count.data", count.table))
 
+  # Read sample metadata
+  sample.metadata <<- read.samples.metadata(c("sample.metadata", sample.file), count.data)
+
   # Rename count.data columns
   colnames(count.data) <<- sample.metadata$Display
 
@@ -195,9 +198,6 @@ arnaq <- function(resources.file = "resources.yml",
                                                 count.data, gene.masks, sample.metadata)
     colnames(arnaq.run$read.summary) <- sample.metadata$Display
   }
-
-  # Read sample metadata
-  sample.metadata <<- read.samples.metadata(c("sample.metadata", sample.file), count.data)
 
   # Read extra metrics
   picard.metrics <- (metrics.table != "None") && (metrics.table != "none")

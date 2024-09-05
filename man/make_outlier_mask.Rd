@@ -16,8 +16,8 @@ A logical vector, \code{TRUE} for samples to include.
 \description{
 Returns a logical vector for the samples in the project that do not match any name in the
 supplied vector. This is intended for use with the \code{sample.mask} parameter of the
-\code{\link{arnaq}} function. The names are compared to the Display column of \code{samples.txt}.
+\verb{\link{arnaq}} function. The names are compared to the Display column of \code{samples.txt}.
 }
 \seealso{
-\code{\link{arnaq}}
+\verb{\link{arnaq}}
 }

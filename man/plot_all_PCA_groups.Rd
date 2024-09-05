@@ -14,7 +14,8 @@ plot_all_PCA_groups(PC.norm, PC.vars, sample.metadata, cols, depth = 2)
 
 \item{sample.metadata}{The metadata with group membership for the samples.}
 
-\item{cols}{A vector naming which of the columns in \code{sample.metadata} should be used to create PCA plots.}
+\item{cols}{A vector naming which of the columns in \code{sample.metadata} should be used to create
+PCA plots.}
 
 \item{depth}{The depth up to which to generate PCA plots.}
 }

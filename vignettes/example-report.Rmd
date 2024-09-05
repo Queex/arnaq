@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r opts, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -34,7 +34,7 @@ using R for demonstration purposes.
 Metadata for the project is stored in a file, `resource.yml`. We begin by creating an empty version
 of this file using ARNAQ tools.
 
-```{r}
+```{r prepare}
 arnaq.prepare("resources") # Creates a template in the working directory
 tmp_resources <- read.table("resources.yml", header=FALSE)
 tmp_resources  # Shows us what the template looks like
@@ -43,7 +43,7 @@ tmp_resources  # Shows us what the template looks like
 This creates a data frame we can alter to point it to the example data. The minimal version only
 requires us to add 3 elements.
 
-```{r}
+```{r resources}
 count.file <- system.file("extdata", "GSE155423_counts.txt", package="arnaq")
 tmp_resources[1, 2] <- "GSE155423"
 tmp_resources[2, 2] <- "mouse"
@@ -60,7 +60,7 @@ more convenient to edit these fields in a text editor.
 The sample metadata will usually come from your own records or pipeline. ARNAQ includes a
 pre-built file for this data set.
 
-```{r}
+```{r samples}
 samples.file <- system.file("extdata", "GSE155423_samples.txt", package="arnaq")
 file.copy(samples.file, "./samples.txt")
 read.table("./samples.txt", header=TRUE)
@@ -70,7 +70,7 @@ read.table("./samples.txt", header=TRUE)
 
 Creating the first report is as simple as:
 
-```{r}
+```{r run_1}
 arnaq()
 ```
 
@@ -88,7 +88,7 @@ This report is a minimal one, without any plots based on metrics not supplied. W
 
 The first step is get the additional metrics files.
 
-```{r}
+```{r metrics}
 assignment_file <- system.file("extdata", "GSE155423_assignment.txt", package="arnaq")
 metrics_file <- system.file("extdata", "GSE155423_metrics.txt", package="arnaq")
 dup_file <- system.file("extdata", "GSE155423_dup_metrics.txt", package="arnaq")
@@ -109,7 +109,7 @@ Equivalent outputs from other tools should also work.
 
 The names of these files now need to be added to the `resources.yml` file.
 
-```{r}
+```{r resources_with_metrics}
 tmp_resources[5, 2] <- assignment_file
 tmp_resources[6, 2] <- dup_file
 tmp_resources[7, 2] <- metrics_file
@@ -130,7 +130,7 @@ these references are stored, to try to minimise the time spent setting up each i
 In this example we will put this structure in the working directory; although it is 
 better to put it in a more general location for regular usage.
 
-```{r}
+```{r gtf}
 dir.create("gtfs", showWarnings=FALSE)
 dir.create("gtfs/GRCm39.112", showWarnings=FALSE)
 download.file("https://ftp.ensembl.org/pub/release-112/gtf/mus_musculus/Mus_musculus.GRCm39.112.gtf.gz", "gtfs/GRCm39.112/Mus_musculus.GRCm39.112.gtf.gz")
@@ -143,7 +143,7 @@ to reduce their size and speed up ARNAQ's execution.*
 Now we add the relevant lines to `resources.yml`.
 
 
-```{r}
+```{r resources_with_gtf}
 tmp_resources[8, 2] <- "gtfs/" # The top directory where the gene sets are stored
 tmp_resources[3, 2] <- "GRCm39.112" # The name of the directory containing our desired .gtf file
 tmp_resources[2, 2] <- "GRCm39.112" # We can be more specific now
@@ -160,7 +160,7 @@ should create a folder `SVG` in the working directory with `.svg` versions of al
 potential use in presentations or papers. You can inspect the plots to check they match the ones in
 the report.
 
-```{r}
+```{r run_2}
 arnaq(svg.export=TRUE)
 ```
 
@@ -189,25 +189,25 @@ help when dealing with larger data sets.
 
 We can create it using a simple function:
 
-```{r}
+```{r outlier_1}
 outlier.mask <- make_outlier_mask(c("D10PBS_1", "D15Myo_3")) # name the samples to exclude
 ```
 
 or by using group information from the `sample.metadata` object created by our earlier runs:
 
-```{r}
+```{r outlier_2}
 D10_D15.mask <- sample.metadata$Day != "D21" # exclude 1 of the 3 groups for 'Day'
 ```
 
 This format makes it easy to combine and/or manipulate the masks:
 
-```{r}
+```{r outlier_3}
 D10_D15.outlier.mask <- outlier.mask & D10_D15.mask
 ```
 
 Creating a report based on this mask is simply:
 
-```{r}
+```{r run_3}
 arnaq(model.name="D10_D15_wo_outliers", sample.mask=D10_D15.outlier.mask)
 ```
 
@@ -235,7 +235,7 @@ However, you may wish to alter which columns of `sample.metadata` are used for t
 depth of the PCA plot will, by default include all components that account for at least 10% of the
 total variability. This can also be adjusted.
 
-```{r}
+```{r run_4}
 arnaq(model.name="alt_PCA", pca.groups="Day", pca.depth=3)
 ```
 
@@ -252,7 +252,7 @@ normalisation. Any other value will suppress normalisation and the raw counts wi
 **The VSN normalisation is impractically slow for large sets; `linear` is strongly recommended for
 dataset with more than 30 samples.**
 
-```{r}
+```{r run_5}
 arnaq(model.name="linear", normalise="linear")
 ```
 
@@ -266,10 +266,15 @@ appropriately concordant between them.
 
 You can specity which sample pairs using the `scatter.pairs` parameter.
 
-```{r}
+```{r run_6}
 arnaq(model.name="scatter", scatter.pairs=list(c("D10Myo_1","D10Myo_2"),c("D15Myo_1","D15Myo_2")))
 ```
 
 ## ERCC plots
 
 TODO
+
+```{bash copy_reports, echo=FALSE, eval=TRUE}
+# Save report output alongside vignettes
+cp QC/*.html ../doc/
+```

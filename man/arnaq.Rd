@@ -18,7 +18,8 @@ arnaq(
   pca.depth = NULL,
   ERCC.pairs = list(),
   ERCC.combined = TRUE,
-  scatter.pairs = list()
+  scatter.pairs = list(),
+  gene.mask.name = "Genes"
 )
 }
 \arguments{
@@ -48,8 +49,8 @@ is to only use those groups in \code{treat.groups}.}
 \item{ERCC}{A logical value indicating if ERCC spike-ins are included in the gene set.}
 
 \item{normalise}{A character value specifying which normalisation to perform on the data.
-\code{"VSN"} is the default, but this does not run in reaosnable time for large (>=30) numbers
-of samples. \code{"linear"} is the alternative. Any other value will skip normalisation.}
+\code{VSN} is the default, but this does not run in reaosnable time for large (>=30) numbers
+of samples. \code{linear} is the alternative. Any other value will skip normalisation.}
 
 \item{svg.export}{If set to \code{TRUE}, create an additional directory in the output called
 \code{svg} with svg versions of every plot created in the report, suitable for inclusion in
@@ -70,8 +71,13 @@ x-axis, rather than the expected fold-change.}
 \item{scatter.pairs}{A list of pairs of samples to produce read counts scatter plots for, to
 check consistency between samples that are technical replicates.}
 
+\item{gene.mask.name}{Which set of genes to filter to in preparing the report. This should be a
+name that will be present in the \code{gene.masks} list. See the \verb{objects created} vignette for a list
+of options. The default of \code{Genes} will use all genes in the reference \code{.gtf} with a non-zero
+count for at least one sample, that are not ERCC spike-ins.}
+
 \item{samples.txt}{The file containin sample-centric data. The default looks for the file
-\code{samples.txt} in your working directory, and is useful when you  have one project per
+\code{samples.txt} in your working directory, and is useful when you have one project per
 directory.}
 
 \item{max.sample.per.page}{In projects with a large number of samples, some plots will be
@@ -102,16 +108,18 @@ The intention is that these are available for downstream analysis, but can also 
 (such as fine-tuning plots). The R console output will also appear in the file \code{arnaq.log}
 in your working directory.
 
-TODO list of objects created
-
-TODO list of output files
+ARNAQ will try to optimise by looking in the session for some data before attempting to read
+it from the file locations you give it. If the underlying files have changed, use
+\verb{\link{arnaq_clear}} to remove ARNAQ's objects before rerunning.
 }
 \examples{
 arnaq()
-arnaq("some/other/location/resrouces.yml", "some/other/location/samples.txt")
+arnaq("some/other/location/resources.yml", "some/other/location/samples.txt")
 arnaq(model.name = "outliers removed", sample.mask = some_mask, normalise = "linear")
 
 }
 \seealso{
 \verb{\link{make_outlier_mask}}
+
+\verb{\link{arnaq_clear}}
 }

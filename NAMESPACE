@@ -2,6 +2,8 @@
 
 export(arnaq)
 export(arnaq.create.report)
+export(arnaq.prepare)
+export(arnaq_clear)
 export(export_all_svg)
 export(export_svg)
 export(make_outlier_mask)

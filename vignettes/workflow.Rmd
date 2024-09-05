@@ -7,15 +7,11 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r opts, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-```
-
-```{r setup, echo=FALSE}
-#library(arnaq)
 ```
 
 ARNAQ is a tool for analysts working with RNA sequencing data, intended to make the process of 
@@ -87,8 +83,8 @@ part of your pipeline.
 
 If the above files are prepared, the initial run of ARNAQ can be as simple as:
 
-```
-> arnaq()
+```{r run_eg, eval=FALSE}
+arnaq()
 ```
 
 This will run the tool with default parameters. Settings for which organism, where the files are
@@ -117,9 +113,9 @@ Suggestions on how to handle two of the most common issues are below.
 The most common parameter change is to exclude one or more samples from the run. This can be done
 using `make_sample_mask()`:
 
-```
-> outliers <- make_sample_mask(c("BadSampleA", "BadSampleB"))
-> arnaq(model.name = "outliers_removed", sample.mask = outliers)
+```{r outliers, eval=FALSE}
+outliers <- make_sample_mask(c("BadSampleA", "BadSampleB"))
+arnaq(model.name = "outliers_removed", sample.mask = outliers)
 ```
 
 *Note that as `make_sample_mask()` uses the sample metadata object created by an ARNAQ run, you need
@@ -128,9 +124,9 @@ to perform an initial run before using it.*
 As `make_sample_mask()` returns a `TRUE`/`FALSE` vector, it is easy to make compatible masks using
 logical operators and the sample metadata:
 
-```
-> group.AB.mask <- sample.metadata$Group %in% c("A", "B")
-> arnaq(model.name = "groups_A_and_B", sample.mask = group.AB.mask) # Will only consider samples in groups A and B
+```{r group, eval=FALSE}
+group.AB.mask <- sample.metadata$Group %in% c("A", "B")
+arnaq(model.name = "groups_A_and_B", sample.mask = group.AB.mask) # Will only consider samples in groups A and B
 ```
 
 In both examples, a `model.name` parameter is given to differentiate the output. ARNAQ will 

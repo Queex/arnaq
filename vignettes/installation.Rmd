@@ -7,15 +7,11 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r opts, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-```
-
-```{r setup, echo=FALSE}
-#library(arnaq)
 ```
 
 Apart from the R package requirements, ARNAQ also needs [pandoc](https://pandoc.org)
@@ -28,14 +24,14 @@ create an environment with `pandoc` and the required R packages.
 The file `ARNAQ_env.yml` can be used with `conda` to set up a suitable environment. The enviroment
 file can be found [here](???). Then, from the command line:
 
-```
+```{bash conda_1, eval=FALSE}
 conda env create -f ARNAQ_env.yml
 conda activate arnaq_1.0
 ```
 
 When you are done, you can use the usual conda command to return to the standard environment.
 
-```
+```{bash conda_2, eval=FALSE}
 conda deactivate
 ```
 
@@ -47,7 +43,7 @@ installing pandoc, from [here](https://pandoc.org/installing.html).
 
 # Installing ARNAQ from github
 
-```{r, eval=FALSE}
+```{r install, eval=FALSE}
 devtools::install_github("Queex/arnaq") # Not available yet
 ```
 
@@ -59,7 +55,7 @@ third, you will need to create it for every project. You can create this file ma
 and edit one from a previous project, or create a blank template using the following
 command:
 
-```{r, eval=FALSE}
+```{r prepare, eval=FALSE}
 arnaq.prepare("resources")
 ```
 
