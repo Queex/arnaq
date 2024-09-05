@@ -45,7 +45,7 @@ installing pandoc, from [here](https://pandoc.org/installing.html).
 # Installing ARNAQ from github
 
 ```{r install, eval=FALSE}
-devtools::install_github("Queex/arnaq") # Not available yet
+devtools::install_github("Queex/arnaq")
 ```
 
 # Support Files
