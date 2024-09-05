@@ -1,0 +1,176 @@
+---
+title: "Typical ARNAQ Workflow"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Typical ARNAQ Workflow}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, echo=FALSE}
+#library(arnaq)
+```
+
+ARNAQ is a tool for analysts working with RNA sequencing data, intended to make the process of 
+assessing a data set for QC issues before downstream analysis quick and simple. It complements,
+rather than replaces, QC metrics generated during sequencing, or by the processing steps immediately
+following sequencing. ARNAQ is designed to be experiment-aware, allowing users to identify issues 
+that would 
+not necessarily be apparent without that context, such as:
+
+- Sample swaps between groups
+- Batch effects
+- Systematic variation in read depth or library complexity between experimental groups
+- Poor differentiation between different groups of samples
+
+It does so in a way that's designed to minimise duplicative effort by the analysis, provide 
+justification for modelling decisions such as outlier removal, and act as a record of exactly
+what steps were taken in the preparation of a particular run. Analyst time is spent examining the
+data.
+
+The html report can be used by the analyst to review the data set, but is also in a format that can
+be sent to collaborators unfamiliar with R or the types of QC plot typically made. Optionally, 
+high quality `.svg` files can be exported for every plot included in the report, ready for inclusion
+in papers.
+
+Finally, an ARNAQ run creates objects in the R session for the normalised data, sample metadata, and
+more; simplifying the process of performing downstream analysis such as differential expression 
+analysis.
+
+# Workflow
+
+The full workflow for ARNAQ looks like this:
+
+- Create data and metrics files
+- Create `resources.yml` and `samples.txt`
+- Run ARNAQ
+- Iterate
+    - Investigate possible QC issues
+    - Rerun ARNAQ with different parameters
+- (Optionally) Fine tune plots
+    - Recreate report
+- (Optionally) Export `.svg` versions of the plots
+- Downstream analysis
+
+ARNAQ will automatically log its on-screen output to a file each time it is run, but it is 
+recommended that you also keep a separate record of what R code you used when running ARNAQ.
+
+## Create data and metrics files
+
+Create your count tables using your preferred tools. ARNAQ expects the standard format of text 
+files with a header row containing sample names, with one column for Ensembl gene identifiers and
+subsequent columns for sample read counts.
+
+Optionally, summaries of read assignment can be attached (as from featureCounts)
+
+Also optionally, consolidated metrics files from Picard (RNAMetrics and MarkDuplicates) can also be 
+provided.
+
+## Create `resources.yml` and `samples.txt`
+
+These two files contain information about the data that is not anticipated to change for different
+ARNAQ runs. `resources.yml` contains non-sample-specific metadata and `samples.txt` contains 
+sample metadata. These are used to establish which genome to use, define experimental groups, and 
+point to the file locations of the raw count data.
+
+By making these files rather than paramters within R, it is easier to automate their generation as 
+part of your pipeline.
+
+## Run ARNAQ
+
+If the above files are prepared, the initial run of ARNAQ can be as simple as:
+
+```
+> arnaq()
+```
+
+This will run the tool with default parameters. Settings for which organism, where the files are
+located, etc., are handled by `resources.yml`. The parameters to `arnaq()` allow you greater
+control over the process.
+
+## Iterate
+
+The report may indicate potential QC issues with the data set, such as batch effects and failed 
+samples. In some cases, these will have been identified by earlier QC and ARNAQ helps confirm them.
+In particular, where a sample is borderline the plots in ARNAQ give some information as to *how 
+much* the issue might be affecting the data for that sample.
+
+It is common to need to iteratively run reports until you are satisfied no more outliers remain.
+In particular, bad samples can skew some of the diagnostic plots and make it harder to determine if
+the experimental groups are egregated in the plots, or if there are any less dramatic outliers
+waiting to be identified.
+
+Once you are satisfied that no more issues remain, the most recent version of the report can be
+used as the final one.
+
+Suggestions on how to handle two of the most common issues are below.
+
+### Outliers
+
+The most common parameter change is to exclude one or more samples from the run. This can be done
+using `make_sample_mask()`:
+
+```
+> outliers <- make_sample_mask(c("BadSampleA", "BadSampleB"))
+> arnaq(model.name = "outliers_removed", sample.mask = outliers)
+```
+
+*Note that as `make_sample_mask()` uses the sample metadata object created by an ARNAQ run, you need
+to perform an initial run before using it.*
+
+As `make_sample_mask()` returns a `TRUE`/`FALSE` vector, it is easy to make compatible masks using
+logical operators and the sample metadata:
+
+```
+> group.AB.mask <- sample.metadata$Group %in% c("A", "B")
+> arnaq(model.name = "groups_A_and_B", sample.mask = group.AB.mask) # Will only consider samples in groups A and B
+```
+
+In both examples, a `model.name` parameter is given to differentiate the output. ARNAQ will 
+overwrite the objects in the session with new versions each time it is run, but the output files
+will have the model name included in them, keeping multiple versions die by side.
+
+### Batch effects
+
+Although the PCA plot for a project may be very persuasive with regard to a potential batch effect,
+it cannot be taken as such without corroboration external to the read count data. If such 
+corroboration exists, then it may be convenient to include batch information as an extra column in
+`samples.txt`.
+
+Not only will this include batch as a group for PCA plots in the report, but it will make sure that 
+the batch effect is in the `sample.metadata` object ready for any downstream analysis.
+
+## Fine tune plots
+
+*Optional.*
+
+You may wish to alter individual plots to better display points of interest. Care has been taken
+to make the default plots as robust as possible, whatever the data, but no uncurated method will
+ever be perfect. All of the plots that appear in the report are stored in the `all_plots` list,
+and as `ggplot2` objects you can adjust their presentation as you wish. Details on the structure
+of `all_plots` is given [here](all-plots.html).
+
+To produce the most recent report with these new plots, you use `arnaq.create.report()`.
+
+## Export to `.svg`
+
+*Optional.*
+
+The `export.svg` parameter to `arnaq()` will create SVG format exports of every plot in the `QC/svg`
+folder.
+
+If you wish to export them without running the entire tool, the `export_all_svg()` function will
+accomplish this.
+
+## Downstream analysis
+
+The objects `sample.metadata`, `count.data` and `norm.data` in session can be used directly with
+differential expression packages such as `DESeq2`, `edgeR` or your preferred tool. Alternatively,
+the data files created by ARNAQ can be used.

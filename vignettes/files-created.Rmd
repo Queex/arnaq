@@ -1,0 +1,86 @@
+---
+title: "Files Created By ARNAQ"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Files Created By ARNAQ}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, echo=FALSE}
+#library(arnaq)
+```
+
+Apart from the QC report, ARNAQ will produce processed data files that can be archived or taken 
+forward for downstream analysis. All output files include the `project.id` specified in 
+`resource.yml` and the `model.name` parameter of `arnaq()` as part of
+the file name. As the objects created in the R session are over-written with each run, these files 
+should be kept if the different versions of the output are of interest.
+
+All these files are placed in the directory `./QC/`, based on your working directory. This
+directory will be created if it does not exist, but any existing contents will not be removed.
+Previous ARNAQ output will only be overwritten if a run with the same `project.id` and `model.name`
+is done.
+
+# Report files
+
+The report is produced in two formats.
+
+## *_arnaq.html
+
+The main html report, which includes descriptions of the plots and references for the tools used.
+
+## *_arnaq.pdf
+
+An alternative version of the report in pdf format, as a fallback if html is not desirable.
+
+# Data files
+
+## *_sample_metadata.txt
+
+Sample metadata, filtered to the samples in `sample.mask`
+
+## *_gene_count_table.txt
+
+A trimmed version of the raw read count table. Samples excluded by ARNAQ, using `sample.mask`, are
+removed. Genes with no reads, or which are not listed as `genes` in the `.gtf` file, are
+excluded.
+
+## *_ERCC_count_table.txt
+
+If `ERCC` is `TRUE`, a raw count table of the ERCC spike-ins only will be created. This will be
+filtered by `sample.mask`.
+
+## *_detected_genes_table.txt
+
+A table of how many genes had at least one read. If `ERCC` is `TRUE`, includes a second column with 
+detected ERCC spike-ins. Samples are filtered by `sample.mask`.
+
+## *_cpm_table.txt
+
+The raw count table above rescaled to counts per million.
+
+## *_normalised_count_table.txt
+
+Under the same filtering rules as before, the normalised read counts. This file is only generated if 
+variance stabilising normalisation is used.
+
+## *_biotypes_original_table.txt
+
+Number of reads in biotypes categories, as defined by Ensembl, for filtered samples.
+
+## *_biotypes_original_table.txt
+
+As above, but after being mapped to the smaller set of categories used for
+plotting.
+
+# Log
+
+arnaq.log

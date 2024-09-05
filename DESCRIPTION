@@ -1,0 +1,39 @@
+Package: arnaq
+Title: Experiment-Aware Quality Control for RNA Sequencing
+Version: 0.0.1
+Authors@R: 
+    person("Ben J", "Wright", email = "chthonic.games@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-9279-4594"))
+    person("Helen", "Lockstone", role=c("ctb"))
+    person("Eshita", "Sharma", role=c("ctb"))
+    person("Santiago", "Revale", role=c("ctb"))
+    person("Matthieu", "Miossec", role=c("ctb"))
+Author: Ben J Wright
+Maintainer: Ben J Wright <chthonic.games@gmail.com>
+URL: TODO
+BugReports: TODO
+Description: Performs secondary quality control assessment of an RNA data set, incorporating 
+    information about the experimental design, to enable an analyst to identify potential data 
+    quality issues such as sample swaps, batch effects and failed samples. Produces an html report 
+    and (optionally) print-quality svg versions of the plots therein.
+License: GPL-3
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
+Imports:
+    reshape2,
+    ggplot2,
+    dendextend,
+    rmarkdown,
+    svglite,
+    DESeq2,
+    vsn,
+    rtracklayer,
+    scales,
+    hexbin,
+    tinytex,
+    R.utils
+SystemRequirements: pandoc
+Suggests: 
+    knitr
+VignetteBuilder: knitr
+biocViews: TODO

@@ -1,0 +1,206 @@
+---
+title: "Objects Created By ARNAQ"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Objects Created By ARNAQ}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, echo=FALSE}
+#library(arnaq)
+```
+
+ARNAQ creates a number of R objects in the course of a run, which remain available after the run is
+completed. The rationale for this is twofold. Firstly, some of this data (count tables read from 
+files, for example) is useful for any downstream analysis and it is useful to already have this
+available in an R session. Secondly, the user can alter the appearance of the final report by 
+altering plots and/or changing which sections are included. The default versions will probably be
+suitable in most instances, but it is impractical to anticipate every change a user might need to 
+make to the final appearance of the plot or report and this method provides an accessible method 
+of customisation without overencumbering the main functions with options.
+
+All of these objects will be overwritten by a subsequent ARNAQ run in the same session. As the 
+intention is for sequential runs for the same project to be iterations towards a final version of
+the report, this should not be a problem. If necessary, the R session object can be copied into a 
+different directory or the objects renamed 
+
+These objects can broken down into three categories:
+
+# Report Preparation
+
+These objects are used internally by ARNAQ when preparing a report, but also need to be supplied
+when recreating a report after fine-tuning plots. `arnaq.create.report()` uses default values 
+for some of its parameters that match these object names.
+
+## all_plots
+
+This named list contains all the plot objects that are used in the report. Full details are 
+provided in a [separate vignette](all-plots.html).
+
+## arnaq.plot.flags
+
+A named list of logical values that controls which sections and plots are included when  
+`arnaq.create.report()` is used. This object is created with values that reflect what data
+was available for the run. Specific plots can be set to `FALSE` to exclude them anyway. Changing a
+value to `TRUE` is not recommended as it is unlikely that the underlying plot the report would need
+is available.
+
+## arnaq.report.template
+
+This is the file path to the ARNAQ report template, as given in `resources.yml`.
+
+## arnaq.run
+
+A list containing supplementary data about the ARNAQ run, covered later.
+
+## qc.name
+
+The extended name for this ARNAQ run, based on the project id given in `resources.yml` and the 
+`model.name` paramter (if any) given to `arnaq()`.
+
+# Important Data
+
+These are the primary pieces of data associated with the project; those most likely to be useful in
+downstream analysis or to be inspected within R.
+
+## count.data
+
+The complete raw counts table, as read in from the data file and without any filtering.
+
+## gene.masks
+
+This is a list of logical masks for genes, rather than samples. Most categories are pulled from the
+`genome_reference` file specified in `resources.yml`.
+
+- `Genes` denotes identifiers listed as genes.
+- `ERCC` are for ERCC spike-ins. Any gene identifier that starts with ERCC will be considered as 
+such, if ERCC functionality is turned on in `arnaq()`.
+- `protein_coding`, `miRNA`, `lncRNA`, `sRNA`, `snoRNA`, `snRNA` and `scaRNA`, as defined in the 
+.gtf file, are present. tRNA is listed as 'sRNA' in the Ensembl data file.
+- `ncRNA` represents the union of the previous set of categories.
+
+For all masks except ERCC, the main masks excludes genes with no reads for any sample. If you want
+an equivalent mask that includes these zero read genes, append `_Z` to the name.
+
+The ERCC mask is not filtered in this way, on the basis that missing spike-ins are anticipated to 
+be of interest when checking observed against expected reads.
+
+## norm.data
+
+The normalised count data. This is filtered by both `sample.mask` and `gene.masks$Genes`. The
+type of normalisation performed in set as a paramter in `arnaq()`. In the special case where
+no normalisation is performed, this will be the filtered raw count matrix.
+
+## sample.mask
+
+The sample mask supplied to `arnaq()` is stored here. The `count.data` and `sample.metadata`
+entries below are **not** filtered by this mask.
+
+## sample.metadata
+
+The complete sample metadata table, as read in from the data file and without any filtering. You 
+can use the group columns of this object to create sample masks for use with `arnaq()`, 
+instead of or in combination with `make_outlier_mask()`.
+
+## species.gtf
+
+The Ensembl .gtf file used to find gene categories is stored in the session.
+
+# Other Data and Metadata
+
+Other data is placed in the `arnaq.run` list object under the following names, to avoid cluttering 
+up the main session. This includes complete R copies of some of the source files for the ARNAQ run.
+
+These entries are separated by category here for convenience.
+
+## Run Information
+
+Information about the run itself.
+
+### version
+
+The version of ARNAQ used.
+
+### date
+
+The date the run was started.
+
+### resources
+
+The file path of `resources.yml`.
+
+### biotype.conversion.table
+
+The table used to map the full set of Ensembl biotypes to more readable consolidated categories.
+
+### project.id
+
+The project name given in `resources.yml`. Used in combination with the `model.name` parameter of
+`arnaq()` to give the full name of a run.
+
+### genome.file
+
+The .gtf file used to determine gene biotype, if any was provided.
+
+### out.directory
+
+The directory the output files appeared in. Currently `./QC/`.
+
+### model.formula
+
+The model formula, based on the treatment groups specified, as used by DESeq2 for normalisation.
+
+## Input Data
+
+Other data as read from external files.
+
+### read.summary
+
+The table of mapped reads assigned to categories, as per featureCounts or equivalent, as in the
+`summary_table` entry of `resources.yml`, if available.
+
+### count.metrics
+
+The table of metrics for samples, as calculated by Picard or equivalent, as in the `metrics_table`
+and `duplication_table` of `resources.yml`, if availble.
+
+### ERCC.data
+
+The table of counts of ERCC spike-ins per samples, if the `ERCC` paramter is `TRUE` in the 
+`arnaq()` run.
+
+## Derived Data
+
+Data that is calculated from the sets loaded in.
+
+### complexity.matrix
+
+The complexity matrix is a long format dataframe based on sample and top N genes, with a value of 
+the proportion of the sample reads contained within that top N.
+
+### cpm.matrix
+
+The cpm matrix as calculated based on the normalised read counts.
+
+### norm.PCA
+
+The Principle Components Analysis based on the normalised read counts. This is a list with
+three members. `PC` is the matrix itself. `Vars` is the vector giving the propotions of variability
+explained by each component. `CumulVars` is the cumulative version of the previous.
+
+### ERCC.data.cpm
+
+The cpm version of `ERCC.data`.
+
+### biotype.counts
+
+Table of reads collated into the Ensembl biotype categories, in the simplified mapping provided by
+the support file `biotype_conversion` in `resources.yml`.

@@ -1,0 +1,363 @@
+---
+title: $Project_number ARNAQ Report
+date: $Date
+output:
+    html_document:
+        toc: true
+        toc_float: true
+        number_sections: true
+        smart: false
+        smooth_scroll: false
+        fig_width: 8
+        fig_height: 8 
+    pdf_document:
+        toc: true
+        number_sections: true
+        fig_width: 4
+        fig_height: 4
+---
+
+<!--- Generated QC document --->
+
+*Version: 0.1*
+
+# Project Summary
+
+| Summary        | Value           |
+| -------------- | --------------- |
+| Samples        | $num_samples    |
+| Genome         | $genome_file    |
+| Genes          | $genes          |
+| Detected genes | $detected_genes |
+
+@@Barplot_section
+
+# Assignment Summary
+
+Reads may not be assigned to features for one of a number of reasons. Exact categories depend on
+the input data, but common categories are:
+
+- **Ambiguity**: The read maps, but overlaps multiple features.
+- **MultiMapping**: The read maps to multiple locations in the transcriptome so
+cannot be assigned uniquely. Note that such reads are double-counted (or more)
+so a large number may exaggerate the total number of reads.
+- **NoFeatures**: The read maps, but does not overlap any defined features.
+- **Unmapped**: The read does not map well.
+
+Additionally, If ERCC spike-ins are present, they are considered separately from
+the requested feature set (which are typically Ensembl genes).
+
+## Count {.tabset .tabset-pills}
+
+Absolute read counts.
+
+@@Count_barplot_loop
+### $i {-}
+```{r, count_barplot_$i, echo=FALSE}
+plot(all_plots$barplots_ps[[$i]]) # nolint: error.
+```
+@@/Count_barplot_loop
+
+## Proportion {.tabset .tabset-pills}
+
+The same counts, as a proportion of the total.
+
+@@Prop_barplot_loop
+### $i {-}
+```{r, prop_barplot_$i, echo=FALSE}
+plot(all_plots$barplots2_ps[[$i]])
+```
+@@/Prop_barplot_loop
+
+@@/Barplot_section
+
+# Library Complexity
+
+Poor-quality samples often have a smaller number of genes represented than the rest,
+or a disproportionately large number of reads mapping to only a subset of genes.
+
+## Diversity of Reads
+These curves show how many of the total reads map to the most-expressed genes
+for each sample. Samples that start at a high value, or follow a markedly different
+curve to the rest, are likely to be unreliable.
+
+@@Complexity_plot2_section
+```{r, complexity_2, echo=FALSE}
+plot(all_plots$complexity_plot_2)
+```
+@@/Complexity_plot2_section
+
+@@Complexity_plot1_section
+```{r, complexity_1, echo=FALSE}
+plot(all_plots$complexity_plot)
+```
+@@/Complexity_plot1_section
+
+## Detected Genes
+These curves show the total number of detected genes for each sample, as the number varies with
+counts-per-million thresholds.
+
+@@Detected_plot2_section
+```{r, detected_2, echo=FALSE}
+plot(all_plots$detected_plot_2)
+```
+@@/Detected_plot2_section
+
+@@Detected_plot1_section
+```{r, detected_1, echo=FALSE}
+plot(all_plots$detected_plot)
+```
+@@/Detected_plot1_section
+
+@@Biotype_section
+
+# Ensembl Biotype Breakdown
+Ensembl provides a mapping of genes to [biotypes](https://www.ensembl.org/info/genome/genebuild/biotypes.html).
+This can be used to determine if any unwanted categories are over-represented 
+in the samples. Biotypes have been collapsed into a smaller number of 
+categories here to aid clarity.
+
+## By Sample {.tabset .tabset-pills}
+
+@@Biotype_loop
+### $i {-}
+```{r, biotype_barplot_$i, echo=FALSE}
+plot(all_plots$biotype_ps[[$i]])
+```
+@@/Biotype_loop
+
+## Any Detected Gene
+This chart shows how many different genes are detected across the project in each
+of the biotype categories.
+```{r, biotype_pie, echo=FALSE}
+plot(all_plots$biotype_pie_plot)
+```
+
+@@/Biotype_section
+
+@@Normalisation_VSN_section
+
+# Normalisation Performance
+For the following plots, the gene counts are normalised using a
+variance-stabilising technique^[The details can be found in the [DESeq2 documentation](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html ).] In some projects, with poor-quality data, the
+normalisation is less effective than is ideal. The ideal result is for the
+red trend line to be close to horizontal. For projects where it is not, the 
+rest of the QC may not be reliable.
+
+Each cell is coloured depending on how many genes fall within it.
+
+```{r, normalisation_plot, echo=FALSE}
+plot(all_plots$norm_plot)
+```
+@@/Normalisation_VSN_section
+
+@@Normalisation_linear_section
+
+# Normalisation
+Expression levels for normalised using a simple linear normalisation
+for the following additional QC. More sophisticated approaches are
+generally preferred, but can be too computationally intensive for large
+numbers of samples.
+
+@@/Normalisation_linear_section
+
+# Hierarchical Clustering {.tabset .tabset-pills}
+
+Inter-sample similarity can be used to confirm that different experimental
+groups for clusters in the data. It can also reveal unexpected features, such
+as batch effects, that may need to be adjusted for in downstream analysis.
+
+Two methods of measuring this similarity are given here: Euclidean distance and
+Spearman's Rank correlation. The former is more sensitive to outlier samples
+but typically provides more detail as to clustering.
+
+The heatmaps show sample-to-sample similarity scores. The dendrograms show how 
+samples cluster in a binary tree.
+
+
+## Distance Heatmap {-}
+```{r, distance_heatmap, echo=FALSE}
+	plot(all_plots$hcluster_ps[[1]])
+```
+
+## Distance Dendrogram {-}
+```{r, distance_dendrogram, echo=FALSE}
+plot(all_plots$hcluster_ps[[2]])
+```
+
+## Spearman's Rank Heatmap {-}
+```{r, spearmans_heatmap, echo=FALSE}
+plot(all_plots$hcluster_ps[[3]])
+```
+
+## Spearman's Rank Dendrogram {-}
+```{r, spearmans_dendrogram, echo=FALSE}
+plot(all_plots$hcluster_ps[[4]])
+```
+
+# Principal Components Analysis
+
+PCA aims to simplify the display of high dimensional data set in such a way as 
+to make any clustering immediately apparent. The most significant components
+are shown here as one of the axes in each plot. Often, only two components are
+significant and hence only a single plot is required.
+
+The amount of the total variation accounted for by each component is shown.
+
+Ideally each experimental group will be its own cluster, on at least one of
+these plots.
+
+## By Sample Names
+
+Each sample is represented by its name.
+
+```{r, pca_names, echo=FALSE}
+for(p in all_plots$pca_ids_ps){
+	plot(p)
+}
+```
+
+## By Groups {.tabset .tabset-pills}
+
+Each grouping category is shown separately, if more than one is given. Each dot
+is one sample.
+
+@@PCA_group_loop
+### $name {-}
+```{r, pca_group_$i, echo=FALSE}
+for(p in all_plots$pca_group_pss[[$i]]){
+	plot(p)
+}
+```
+@@/PCA_group_loop
+
+@@Violin_section
+
+# Additional Metrics {.tabset .tabset-pills}
+
+Additional metrics for the dataset, provided by Picard, are plotted here. What
+constitutes a 'good' metric will vary depending on the tissue used and the
+sequencing protocol. Large disparities between experimental might indicate
+data quality issues.
+
+Picard is a popular tool for generating these metrics, using [RnaSeqMetrics](https://broadinstitute.github.io/picard/picard-metric-definitions.html ) 
+and [MarkDuplicates](https://gatk.broadinstitute.org/hc/en-us/articles/360037052812-MarkDuplicates-Picard).
+
+- All: The number of bases in total.
+- Aligned: The number of bases aligned.
+- Coding: The number of bases aligned to coding regions.
+- UTR: The number of bases aligned to UTRs.
+- Intronic: The number of bases aligned to intronic regions.
+- Intergenic: The number of bases aligned to intergenic regions.
+
+Coding, UTR, Intronic and Intergenic are subsets of Aligned.
+
+- Median CV Coverage: Median coefficient of variation for the 1000 most highly expressed genes.
+- Median 5' Bias: Of the 1000 most highly expressed genes.
+- Median 3' Bias: Of the 1000 most highly expressed genes.
+- Median 5' to 3' Bias: The ratio of the two above.
+- Duplication Rate: The proportion of reads detected as duplicates. For sequencing
+methods that sample from only one end of a gene, this is expected to be high.
+
+## Count-based Metrics {-}
+```{r, extra_metrics_1, echo=FALSE}
+plot(all_plots$violin1)
+```
+
+## Proportion-based metrics {-}
+```{r, extra_metrics_2, echo=FALSE}
+plot(all_plots$violin2)
+```
+
+@@/Violin_section
+
+@@ERCC_section
+
+# ERCC Spike-ins
+ERCC spike-in sequences have been added to the samples. These can be used in downstream
+normalisation or used to gauge the success of technical aspects of the sequencing
+not dependent on the sample material.
+
+There are two spike-in mixes, with the same transcripts in different proportions.
+This enables the estimation of fold-changes between the mixes, which can be
+checked against the known true ratio. Each mix also has a variety of transcripts at different
+concentrations, which provides an indication as to sensitivity.
+
+Consult the [User Guide](http://tools.thermofisher.com/content/sfs/manuals/cms_086340.pdf) for more details.
+
+@@ERCC_mix_reads
+
+## Detection {.tabset .tabset-pills}
+These plots show how many reads map to each of the ERCC transcripts, in each mix.
+There is a natural minimum to the observed values, which corresponds to 1 read
+in the sample. However, transcripts with less than 1 expected read will still
+be detected in some samples.
+
+Each colour represents a different sample. 
+The red line is a trend line calculated from the data. The green line is the ideal
+perfect correspondence.
+
+### Mix 1 {-}
+```{r, ercc_mix_1, echo=FALSE}
+plot(all_plots$ercc_mix1_plot)
+```
+
+### Mix 2 {-}
+```{r, ercc_mix_2, echo=FALSE}
+plot(all_plots$ercc_mix2_plot)
+```
+
+@@/ERCC_mix_reads
+
+@@ERCC_fc_accuracy
+
+## Fold-Change Recovery {.tabset .tabset-pills}
+Recovered fold-changes from matched pairs of samples, each with one of the two
+ERCC mixes, are shown here. There are four expected fold-change values. Transcripts
+where there are no detected reads in one of the samples are indicated by a cross.
+@@ERCC_fc_loop
+### $name {-}
+```{r, ercc_fc_$i, echo=FALSE}
+plot(all_plots$ercc_fc_ps[[$i]])
+```
+@@/ERCC_fc_loop
+
+@@/ERCC_fc_accuracy
+
+@@/ERCC_section
+
+@@Scatterplot_section
+
+# Sample-to-Sample Scatterplots {.tabset .tabset-pills}
+Specific samples have been selected for pair-wise comparison. Reads
+are shown on the log scale for clarity. The colour of the hex indicates how 
+many genes fall within its area. The red
+line is a trend line. The green line is the ideal 1:1 correspondence.
+
+@@Scatterplot_loop
+## $name {-}
+```{r, scatterplot_$i, echo=FALSE}
+plot(all_plots$read_scatterplots_ps[[$i]])
+```
+@@/Scatterplot_loop
+
+@@/Scatterplot_section
+
+# Tool documentation
+
+- "Picard Toolkit." 2019. Broad Institute, GitHub Repository. https://broadinstitute.github.io/picard/; Broad Institute
+- "R: A language and environment for statistical computing." 2021. R Core Team https://www.R-project.org/; R Foundation for Statistical Computing, Vienna, Austria.
+
+- Allaire J, Xie Y, McPherson J, Luraschi J, Ushey K, Atkins A, Wickham H, Cheng J, Chang W, Iannone R (2022). "rmarkdown: Dynamic Documents for R" https://github.com/rstudio/rmarkdown
+- Huber W, von Heydebreck A, Sueltmann H, Poustka A, Vingron M (2002). “Variance Stabilization Applied to Microarray Data Calibration and to the Quantification of Differential Expression." *Bioinformatics*, **18 Suppl. 1**, S96-S104.
+- Love MI, Huber W, Anders S (2014). "Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2." *Genome Biology*, **15**, 550. doi: [10.1186/s13059-014-0550-8](https://doi.org/10.1186/s13059-014-0550-8)
+- Morgan M, Obenchain V, Hester J, Pagès H (2023). "SummarizedExperiment: SummarizedExperiment container" https://doi.org/10.18129/B9.bioc.SummarizedExperiment
+- Wickham H (2007). "Reshaping Data with the reshape Package." *Journal of Statistical Software*, **21**(12), 1–20. http://www.jstatsoft.org/v21/i12/.
+- Wickham H (2016). ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York. ISBN 978-3-319-24277-4, https://ggplot2.tidyverse.org.
+- Wickham H, Henry L, Pedersen T, Luciani T, Decorde M, Lise V (2023). "svglite: An 'SVG' Graphics Device" https://CRAN.R-project.org/package=svglite.
+- de Vries A, Ripley BD (2024). "ggdendro: Create Dendrograms and Tree Diagrams Using 'ggplot2'" https://CRAN.R-project.org/package=ggdendro
+- Xie Y, Allaire J, Grolemund G (2018). R Markdown: The Definitive Guide. Chapman and Hall/CRC, Boca Raton, Florida. ISBN 9781138359338, https://bookdown.org/yihui/rmarkdown.
+- Xie Y (2019). "TinyTeX: A lightweight, cross-platform, and easy-to-maintain LaTeX distribution based on TeX Live." *TUGboat* **40**(1), 30-32. https://tug.org/TUGboat/Contents/contents40-1.html.
+- Xie Y, Dervieux C, Riederer E (2020). R Markdown Cookbook. Chapman and Hall/CRC, Boca Raton, Florida. ISBN 9780367563837, https://bookdown.org/yihui/rmarkdown-cookbook.
+- Xie Y (2024). "tinytex: Helper Functions to Install and Maintain TeX Live, and Compile LaTeX Documents" https://github.com/rstudio/tinytex.
+

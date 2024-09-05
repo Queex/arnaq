@@ -1,0 +1,20 @@
+name: arnaq_1.0
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - r-base
+  - pandoc
+  - r-reshape2
+  - r-ggplot2
+  - r-dendextend
+  - r-rmarkdown
+  - r-svglite
+  - r-tinytex
+  - r-hexbin
+  - r-r.utils
+  - r-devtools
+  - bioconductor-deseq2
+  - bioconductor-vsn
+  - bioconductor-rtracklayer
+  - bioconductor-summarizedexperiment

@@ -1,0 +1,275 @@
+---
+title: "Example Report"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Example Report}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, echo=FALSE}
+library(arnaq)
+```
+
+Example data is provided with ARNAQ; bulk RNA sequencing data from GEO under the accession
+*GSE155423*. This vignette shows the simplest form of report, with the smallest set of plots, based
+on this data set.
+
+# Initial ARNAQ run
+
+## Setting up the relevant files
+
+These files would normally be prepared by hand, or as part of your pipeline, but are created here
+using R for demonstration purposes.
+
+### Creating `resources.yml`
+
+Metadata for the project is stored in a file, `resource.yml`. We begin by creating an empty version
+of this file using ARNAQ tools.
+
+```{r}
+arnaq.prepare("resources") # Creates a template in the working directory
+tmp_resources <- read.table("resources.yml", header=FALSE)
+tmp_resources  # Shows us what the template looks like
+```
+
+This creates a data frame we can alter to point it to the example data. The minimal version only
+requires us to add 3 elements.
+
+```{r}
+count.file <- system.file("extdata", "GSE155423_counts.txt", package="arnaq")
+tmp_resources[1, 2] <- "GSE155423"
+tmp_resources[2, 2] <- "mouse"
+tmp_resources[4, 2] <- count.file
+tmp_resources # Your count_table location will most likely differ
+write.table(tmp_resources, "resources.yml", quote=FALSE, sep=" ", col.names=FALSE, row.names=FALSE)
+```
+
+Note that while we're using R to edit this file for clarity and reproducibility, it will usually be
+more convenient to edit these fields in a text editor.
+
+### Creating `samples.txt`
+
+The sample metadata will usually come from your own records or pipeline. ARNAQ includes a
+pre-built file for this data set.
+
+```{r}
+samples.file <- system.file("extdata", "GSE155423_samples.txt", package="arnaq")
+file.copy(samples.file, "./samples.txt")
+read.table("./samples.txt", header=TRUE)
+```
+
+## Running the report
+
+Creating the first report is as simple as:
+
+```{r}
+arnaq()
+```
+
+This will create a new directory in your working directory `QC`, which contains not only `.pdf` and
+`.html` versions of the report but saved count tables and other processed data.
+
+Additionally, it has also created a number of objects in R, ones that can be used to refine the 
+QC further or be used for downstream analysis.
+
+This report is a minimal one, without any plots based on metrics not supplied. We can fix that.
+
+# Second run with metrics
+
+## Additional metrics
+
+The first step is get the additional metrics files.
+
+```{r}
+assignment_file <- system.file("extdata", "GSE155423_assignment.txt", package="arnaq")
+metrics_file <- system.file("extdata", "GSE155423_metrics.txt", package="arnaq")
+dup_file <- system.file("extdata", "GSE155423_dup_metrics.txt", package="arnaq")
+head(read.table(assignment_file, header=TRUE))
+head(read.table(metrics_file, header=TRUE, sep="\t"))
+head(read.table(dup_file, header=TRUE))
+```
+
+The first file here is output as from featureCounts, showing how the reads were assigned to
+categories.
+
+The other two are Picard output from the modes `CollectRnaSeqMetrics` and `MarkDuplicates`.
+
+You do not need to specify all three; however if you have one of the Picard outputs ARNAQ expects
+the other.
+
+Equivalent outputs from other tools should also work.
+
+The names of these files now need to be added to the `resources.yml` file.
+
+```{r}
+tmp_resources[5, 2] <- assignment_file
+tmp_resources[6, 2] <- dup_file
+tmp_resources[7, 2] <- metrics_file
+tmp_resources # Your count_table location will most likely differ
+```
+
+As before, in normal usage you will edit these details outside R. Also, you will probably only 
+need to set up the `resources.yml` file once for each project; rather than adding lines piecemeal
+as is done here for demonstration.
+
+## Reference .gtf
+
+Part of ARNAQ's report uses biotype information from Ensembl gene set data. These are specific to
+both the organism and the build of the genome uses for mapping, so there will likely be a need to
+keep several such `.gtf` files in parallel. ARNAQ assumes a specific directory structure for where
+these references are stored, to try to minimise the time spent setting up each individual project.
+
+In this example we will put this structure in the working directory; although it is 
+better to put it in a more general location for regular usage.
+
+```{r}
+dir.create("gtfs", showWarnings=FALSE)
+dir.create("gtfs/GRCm39.112", showWarnings=FALSE)
+download.file("https://ftp.ensembl.org/pub/release-112/gtf/mus_musculus/Mus_musculus.GRCm39.112.gtf.gz", "gtfs/GRCm39.112/Mus_musculus.GRCm39.112.gtf.gz")
+R.utils::gunzip("gtfs/GRCm39.112/Mus_musculus.GRCm39.112.gtf.gz")
+```
+
+*Note that ARNAQ only requires the lines in the `.gtf` file for genes; you can filter these files
+to reduce their size and speed up ARNAQ's execution.*
+
+Now we add the relevant lines to `resources.yml`.
+
+
+```{r}
+tmp_resources[8, 2] <- "gtfs/" # The top directory where the gene sets are stored
+tmp_resources[3, 2] <- "GRCm39.112" # The name of the directory containing our desired .gtf file
+tmp_resources[2, 2] <- "GRCm39.112" # We can be more specific now
+tmp_resources # Your count_table location will most likely differ
+write.table(tmp_resources, "resources.yml", quote=FALSE, sep=" ", col.names=FALSE, row.names=FALSE)
+```
+
+ARNAQ identifies the target gene set by the directory name rather than filename for brevity.
+
+## Second report
+
+With these support files, we can run a second, fuller report. This time, we can specify that ARNAQ
+should create a folder `SVG` in the working directory with `.svg` versions of all the plots, for
+potential use in presentations or papers. You can inspect the plots to check they match the ones in
+the report.
+
+```{r}
+arnaq(svg.export=TRUE)
+```
+
+You may observe that ARNAQ detects where it has already loaded a version of a data file and uses
+that in preference to reading from disk. If you need to start completely from scratch, you can use
+`arnaq_clear()`.
+
+The new report will over-write the previous one. To preserve different versions, we can use the 
+`model.name` parameter, as will be demonstrated next.
+
+# Alternative models
+
+Much of the QC that analysts perform on an RNASeq data set is about inclusion and exclusion criteria 
+for different samples. Apart from idebntifying outliers, they may also be called upon to see how
+well experimental groups segregate where whole groups are either included of excluded, or to try to
+determine by how much borderline acceptable samples might be influencing the clustering. 
+Additionally, the project might require the analyst to explore different comparisons within the 
+project completely separately.
+
+For this reason, it is useful to consider different sets of samples in this QC non-destructively.
+
+This is done by means of the `sample.mask` parameter to `arnaq()`. This parameter is a vector of
+`TRUE`/`FALSE` values that signals whether a sample should be included in the model or not. This 
+approach eliminated the need to keep multiple, slightly different copies of the data, which may 
+help when dealing with larger data sets.
+
+We can create it using a simple function:
+
+```{r}
+outlier.mask <- make_outlier_mask(c("D10PBS_1", "D15Myo_3")) # name the samples to exclude
+```
+
+or by using group information from the `sample.metadata` object created by our earlier runs:
+
+```{r}
+D10_D15.mask <- sample.metadata$Day != "D21" # exclude 1 of the 3 groups for 'Day'
+```
+
+This format makes it easy to combine and/or manipulate the masks:
+
+```{r}
+D10_D15.outlier.mask <- outlier.mask & D10_D15.mask
+```
+
+Creating a report based on this mask is simply:
+
+```{r}
+arnaq(model.name="D10_D15_wo_outliers", sample.mask=D10_D15.outlier.mask)
+```
+
+This will create a new report, and a new set of tables, in the `QC` directory, based on only the 
+samples retained by the mask.
+
+## `treat.groups` and the DESeq2 model
+
+The `DESeq2` model constructed during VSN normalisation needs a model of full rank. When working
+with alternatie sets of samples, it's possible to end up with a subset that does not meet this
+requirement. In this case, the `treat.groups` parameter can be used to say which columns should be
+included.
+
+By default, these will also be the columns used for the PCA plots. The next section shows how you
+can override this behaviour.
+
+# Output options
+
+There are other aspects of ARNAQ output that you can alter.
+
+## PCA adjustments
+
+By default ARNAQ produce PCA plots for every categorical group, which can be set up how you wish. 
+However, you may wish to alter which columns of `sample.metadata` are used for these plots. The 
+depth of the PCA plot will, by default include all components that account for at least 10% of the
+total variability. This can also be adjusted.
+
+```{r}
+arnaq(model.name="alt_PCA", pca.groups="Day", pca.depth=3)
+```
+
+If you are using `treat.groups` to restrict the DESeq2 model to only some metadata columns, you can
+still specify additional columns for the PCA plots using `pca.groups`.
+
+## Normalisation
+
+The `normalise` parameter can be used to change how the data is normalised. The default (`vsn`) uses
+a variance-stabilising normalisation and will produce an accompanying plot so the effectiveness of 
+the normalisation can be assessed. The alternative, `linear`, performs a simple linear 
+normalisation. Any other value will suppress normalisation and the raw counts will be used.
+
+**The VSN normalisation is impractically slow for large sets; `linear` is strongly recommended for
+dataset with more than 30 samples.**
+
+```{r}
+arnaq(model.name="linear", normalise="linear")
+```
+
+# Additional optional plots
+
+## Sample-to-sample scatterplots
+
+In some circumstances, you may wish to view scatterplots of one sample against another; either
+because they are technical replicates or you wish to check that the expression levels are 
+appropriately concordant between them.
+
+You can specity which sample pairs using the `scatter.pairs` parameter.
+
+```{r}
+arnaq(model.name="scatter", scatter.pairs=list(c("D10Myo_1","D10Myo_2"),c("D15Myo_1","D15Myo_2")))
+```
+
+## ERCC plots
+
+TODO

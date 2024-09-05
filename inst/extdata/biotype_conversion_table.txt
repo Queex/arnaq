@@ -1,0 +1,53 @@
+protein_coding	protein_coding	Contains an open reading frame (ORF).
+3prime_overlapping_ncrna	other	Transcripts where ditag and/or published experimental data strongly supports the existence of short non-coding transcripts transcribed from the 3'UTR.
+3prime_overlapping_ncRNA	other	Transcripts where ditag and/or published experimental data strongly supports the existence of short non-coding transcripts transcribed from the 3'UTR.
+antisense	other	Has transcripts that overlap the genomic span (i.e. exon or introns) of a protein-coding locus on the opposite strand.
+IG_C_gene	IMGT	Immunoglobulin (Ig) variable chain and T-cell receptor (TcR) genes imported or annotated according to the IMGT.
+IG_C_pseudogene	IMGT	Inactivated immunoglobulin gene.
+IG_D_gene	IMGT	Immunoglobulin (Ig) variable chain and T-cell receptor (TcR) genes imported or annotated according to the IMGT.
+IG_D_pseudogene	IMGT	???
+IG_J_gene	IMGT	Immunoglobulin (Ig) variable chain and T-cell receptor (TcR) genes imported or annotated according to the IMGT.
+IG_J_pseudogene	IMGT	Inactivated immunoglobulin gene.
+IG_LV_gene	IMGT	Immunoglobulin (Ig) variable chain and T-cell receptor (TcR) genes imported or annotated according to the IMGT.
+IG_V_gene	IMGT	Immunoglobulin (Ig) variable chain and T-cell receptor (TcR) genes imported or annotated according to the IMGT.
+IG_V_pseudogene	IMGT	Inactivated immunoglobulin gene.
+IG_pseudogene	IMGT	Inactivated immunoglobulin gene.
+lincRNA	lincRNA	Long, intervening noncoding (linc) RNAs, that can be found in evolutionarily conserved, intergenic regions.
+miRNA	miRNA	Non-coding RNA predicted using sequences from Rfam and miRBase
+misc_RNA	other	Non-coding RNA predicted using sequences from Rfam and miRBase
+Mt_rRNA	Mt_rRNA	Non-coding RNA predicted using sequences from Rfam and miRBase
+Mt_tRNA	Mt_tRNA	Non-coding RNA predicted using sequences from Rfam and miRBase
+polymorphic_pseudogene	pseudogene	Pseudogene owing to a SNP/DIP but in other individuals/haplotypes/strains the gene is translated.
+processed_pseudogene	pseudogene	Pseudogene that lack introns and is thought to arise from reverse transcription of mRNA followed by reinsertion of DNA into the genome.
+processed_transcript	other	Doesn't contain an ORF.
+pseudogene	pseudogene	Have homology to proteins but generally suffer from a disrupted coding sequence and an active homologous gene can be found at another locus. Sometimes these entries have an intact coding sequence or an open but truncated ORF, in which case there is other evidence used (for example genomic polyA stretches at the 3' end) to classify them as a pseudogene. Can be further classified as one of the following.
+rRNA	rRNA	Non-coding RNA predicted using sequences from Rfam and miRBase
+sense_intronic	other	Long non-coding transcript in introns of a coding gene that does not overlap any exons.
+sense_overlapping	other	Long non-coding transcript that contains a coding gene in its intron on the same strand.
+snoRNA	snoRNA	Non-coding RNA predicted using sequences from Rfam and miRBase
+snRNA	snRNA	Non-coding RNA predicted using sequences from Rfam and miRBase
+TR_C_gene	IMGT	Immunoglobulin (Ig) variable chain and T-cell receptor (TcR) genes imported or annotated according to the IMGT.
+TR_D_gene	IMGT	Immunoglobulin (Ig) variable chain and T-cell receptor (TcR) genes imported or annotated according to the IMGT.
+TR_J_gene	IMGT	Immunoglobulin (Ig) variable chain and T-cell receptor (TcR) genes imported or annotated according to the IMGT.
+TR_J_pseudogene	IMGT	Inactivated immunoglobulin gene.
+TR_V_gene	IMGT	Immunoglobulin (Ig) variable chain and T-cell receptor (TcR) genes imported or annotated according to the IMGT.
+TR_V_pseudogene	IMGT	Inactivated immunoglobulin gene.
+TEC	TEC	To be experimentally confirmed
+lncRNA	other	???
+ebidirectional_promoter_lncRNA	other	A non-coding locus that originates from within the promoter region of a protein-coding gene, with transcription proceeding in the opposite direction on the other strand.
+macro_lncRNA	other	Unspliced lncRNA that is several kb in size.
+non_coding	other	Transcript which is known from the literature to not be protein coding.
+rRNA_pseudogene	pseudogene	Non-coding RNA predicted to be pseudogene by the Ensembl pipeline.
+ribozyme	other	Non-coding RNA predicted using sequences from Rfam and miRBase.
+sRNA	other	Non-coding RNA predicted using sequences from Rfam and miRBase
+scRNA	other	Non-coding RNA predicted using sequences from Rfam and miRBase
+scaRNA	other	Non-coding RNA predicted using sequences from Rfam and miRBase
+transcribed_processed_pseudogene	pseudogene	Pseudogene where protein homology or genomic structure indicates a pseudogene, but the presence of locus-specific transcripts indicates expression.
+transcribed_unitary_pseudogene	pseudogene	Pseudogene where protein homology or genomic structure indicates a pseudogene, but the presence of locus-specific transcripts indicates expression.
+transcribed_unprocessed_pseudogene	pseudogene	Pseudogene where protein homology or genomic structure indicates a pseudogene, but the presence of locus-specific transcripts indicates expression.
+translated_processed_pseudogene	pseudogene	Pseudogene that has mass spec data suggesting that it is also translated.
+translated_unprocessed_pseudogene	pseudogene	???
+unitary_pseudogene	pseudogene	A species-specific unprocessed pseudogene without a parent gene, as it has an active orthologue in another species.
+unprocessed_pseudogene	pseudogene	Pseudogene that can contain introns since produced by gene duplication.
+vault_RNA	other	Short non coding RNA gene that forms part of the vault ribonucleoprotein complex.
+unknown	unknown	To handle mismatches between biotype table and the geneset used
