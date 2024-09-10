@@ -273,8 +273,3 @@ arnaq(model.name="scatter", scatter.pairs=list(c("D10Myo_1","D10Myo_2"),c("D15My
 ## ERCC plots
 
 TODO
-
-```{bash copy_reports, echo=FALSE, eval=TRUE}
-# Save report output alongside vignettes
-cp QC/*.html ../doc/
-```
