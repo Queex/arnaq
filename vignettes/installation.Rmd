@@ -39,8 +39,22 @@ conda deactivate
 # Installing dependencies manually
 
 Several of ARNAQ's required packages are not available for Windows through bioconda. For Windows
-installation, or if you do not use conda on your system, a manual installation can be done by first
-installing pandoc, from [here](https://pandoc.org/installing.html).
+installation, or if you do not use conda on your system, a manual installation needs to be done.
+
+First install pandoc, from [here](https://pandoc.org/installing.html).
+
+Then make sure the `devtools` package is installed:
+
+```{r pre_install, eval=FALSE}
+install.packages("devtools")
+```
+
+## Caveats
+
+As of writing this guide, several key packages do not seem to be available for R version 4.4 via
+this install method. You can try installing them from Bioconductor manually, or use an previous
+version of R. If you follow the latter method, one package requires R 4.4 and up, which will raise
+a warning, but this does not seem to prevent ARNAQ from running.
 
 # Installing ARNAQ from github
 

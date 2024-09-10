@@ -36,7 +36,7 @@ read.resources.file <- function(filename = "resources.yml") {
   res.file <- file(filename, open = "r")
   for (line in readLines(res.file)) {
     tmp <- unlist(strsplit(line, ":"))
-    out[[trimws(tmp[1])]] <- trimws(tmp[2])
+    out[[trimws(tmp[1])]] <- trimws(paste(tmp[-1],sep="",collapse=":"))
   }
   cat("Settings found -\n")
   for (n in names(out)) {
