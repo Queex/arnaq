@@ -1,8 +1,8 @@
 ---
-title: "Example Report"
+title: "Creating Example Reports"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Example Report}
+  %\VignetteIndexEntry{Creating Example Reports}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

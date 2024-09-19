@@ -91,7 +91,7 @@
 #' name that will be present in the `gene.masks` list. See the `objects created` vignette for a list
 #' of options. The default of `Genes` will use all genes in the reference `.gtf` with a non-zero
 #' count for at least one sample, that are not ERCC spike-ins.
-#' @seealso `\link{make_outlier_mask}`
+#' @seealso \code{\link{make_outlier_mask}}
 #' @seealso `\link{arnaq_clear}`
 #' @examples
 #' arnaq()

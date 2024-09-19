@@ -35,5 +35,9 @@ Imports:
 SystemRequirements: pandoc
 Suggests: 
     knitr
-VignetteBuilder: knitr
-biocViews: TODO
+    R.rsp
+VignetteBuilder:
+    knitr
+    R.rsp
+biocViews:
+    GeneExpressionWorkflow
