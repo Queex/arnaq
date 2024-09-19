@@ -1,20 +1,4 @@
----
-title: "Installing ARNAQ"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Installing ARNAQ}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
----
-
-```{r opts, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
-
-# Installing dependcnies
+# Installing dependencies
 
 Apart from the R package requirements, ARNAQ also needs [pandoc](https://pandoc.org)
 on the system. If you are using Linux, it is simple and convenient to use
