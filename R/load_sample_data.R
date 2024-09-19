@@ -54,7 +54,7 @@ read.picard.metrics <- function(picard_sources_vec, dups_sources_vec, sample.nam
     )]
     cat("Reading duplication rates\n")
     tmp <- fallback_load_table(dups_sources_vec, header = TRUE, sep = "\t", row.names = 1,
-                               nrow=nrow(base.stats)) # This remotes the histogram portion
+                               nrow = nrow(base.stats)) # This remotes the histogram portion
     pct.stats <- cbind(pct.stats, tmp$PERCENT_DUPLICATION)
     colnames(base.stats) <- c(
       "All", "Aligned", "Coding", "UTR", "Intronic",
