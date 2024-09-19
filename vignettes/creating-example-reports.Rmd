@@ -171,6 +171,9 @@ that in preference to reading from disk. If you need to start completely from sc
 The new report will over-write the previous one. To preserve different versions, we can use the 
 `model.name` parameter, as will be demonstrated next.
 
+The output of this ARNAQ run, and subsequent variations, can be viewed as vignettes in this package
+without needing to run the examples in this code.
+
 # Alternative models
 
 Much of the QC that analysts perform on an RNASeq data set is about inclusion and exclusion criteria 
