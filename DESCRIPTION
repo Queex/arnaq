@@ -31,7 +31,8 @@ Imports:
     scales,
     hexbin,
     tinytex,
-    R.utils
+    R.utils,
+    R.rsp
 SystemRequirements: pandoc
 Suggests: 
     knitr,
