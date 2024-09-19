@@ -34,10 +34,10 @@ Imports:
     R.utils
 SystemRequirements: pandoc
 Suggests: 
-    knitr
+    knitr,
     R.rsp
 VignetteBuilder:
-    knitr
+    knitr,
     R.rsp
 biocViews:
     GeneExpressionWorkflow
