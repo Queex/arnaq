@@ -43,8 +43,7 @@ pipeline, it is easy to visually check that the correct metadata is being used.
 
 ## Installation
 
-Full installation and post-installation instructions are in
-[this vignette](vignettes/installation.html).
+Full installation and post-installation instructions are [here](installation/README.md).
 
 ## Project files
 

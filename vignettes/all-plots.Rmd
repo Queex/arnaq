@@ -30,7 +30,7 @@ clarity where there are more samples than can comfortably fir on one plot.
 
 The full structure of the object is:
 
-```
+```{text}
 all_plots
 ├── $barplots_ps
 │   ├── [[1]]

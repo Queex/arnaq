@@ -1,11 +1,13 @@
-# Installing dependencies
+# Installing ARNAQ
+
+## Installing dependencies
 
 Apart from the R package requirements, ARNAQ also needs [pandoc](https://pandoc.org)
 on the system. If you are using Linux, it is simple and convenient to use
 [conda](https://anaconda.org/anaconda/conda) to 
 create an environment with `pandoc` and the required R packages.
 
-## Installing dependencies with conda
+### Installing dependencies with conda
 
 The file `ARNAQ_env.yml` can be used with `conda` to set up a suitable environment. The enviroment
 file can be found [here](https://github.com/Queex/arnaq/blob/main/inst/extdata/ARNAQ_env_1.0.yml).
@@ -22,7 +24,7 @@ When you are done, you can use the usual conda command to return to the standard
 conda deactivate
 ```
 
-## Installing dependencies manually
+### Installing dependencies manually
 
 Several of ARNAQ's required packages are not available for Windows through bioconda. For Windows
 installation, or if you do not use conda on your system, a manual installation needs to be done.
@@ -35,7 +37,7 @@ Then make sure the `devtools` package is installed:
 install.packages("devtools")
 ```
 
-### Caveats
+#### Caveats
 
 As of writing this guide, several dependencies of dependencies do not seem to be available for R 
 version 4.4 via
@@ -43,7 +45,7 @@ this install method. You can try installing them from Bioconductor manually, or 
 version of R. If you follow the latter method, one package requires R 4.4 and up, which will raise
 a warning, but this does not seem to prevent ARNAQ from running.
 
-# Installing ARNAQ from github
+## Installing ARNAQ from github
 
 ```{r install, eval=FALSE}
 devtools::install_github("Queex/arnaq", build_vignettes=TRUE)
@@ -56,7 +58,7 @@ This command will also build the vignettes, which can take a few minutes to comp
 include the generation of reports from exmaple data included in the package. If you would prefer
 not to wait, set `build_vignettes` to `FALSE`.
 
-# Support Files
+## Support Files
 
 ARNAQ uses two support files to process the data and create reports, and one file specifying 
 metadata about the project. By default, ARNAQ will use internal versions of the first two. For the
@@ -74,7 +76,7 @@ them.
 These are stored as files outside R in order to make it possible for them to be automatically
 generated (or at least generated in part) by an upstream pipeline.
 
-# External Support Files (.gtf)
+## External Support Files (.gtf)
 
 *Optional.*
 
@@ -91,7 +93,7 @@ faster, but it is not required.
 
 You will only need one such file for each reference genome you are working with.
 
-## Directory Structure
+### Directory Structure
 
 ARNAQ presumes a particular directory structure for these files.
 
@@ -104,7 +106,7 @@ losing information as to their version.
 
 If your directory looks like this:
 
-```
+```{text}
 /some/directory/you/have/
 ├── GRCh38/
 │   └── GRCh38.p14.20240712.gtf
@@ -114,14 +116,14 @@ If your directory looks like this:
 
 The matching lines in `resources.yml` would be:
 
-```
+```{text}
 resource_dir: /some/directory/you/have/
 genome_reference: GRCh38
 ```
 
 or
 
-```
+```{text}
 resource_dir: /some/directory/you/have/
 genome_reference: GRCm39
 ```
@@ -129,7 +131,7 @@ genome_reference: GRCm39
 The directory path should be an absolute path; so you don't have to adjust it between projects in
 different directories.
 
-# ERCC Reference
+## ERCC Reference
 
 *Optional.*
 
@@ -139,6 +141,6 @@ found at [https://assets.thermofisher.com/TFS-Assets/LSG/manuals/cms_095046.txt]
 
 Make sure the relevant line in `resources.yml` points to this file:
 
-```
+```{text}
 ercc_concentrations: path/to/file/from/TFS/filename.txt
 ```
