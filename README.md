@@ -108,7 +108,7 @@ session will be sorted to match the columns of the count data.
 
 ## Vignettes
 
-Github, unfortunately, will not display html files properly
+Github, unfortunately, will not display html files properly.
 
 - [Installation](vignettes/installation.html) includes both how to install this package as well as
 post-installation steps to acquire supporting data.
