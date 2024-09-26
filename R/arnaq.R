@@ -16,6 +16,7 @@
 # Violin plots should consider every group
 # Automatically remove Groups with a single level if treat.groups is not specified
 # Look into a better solution for caching data
+# Change logging so that once project and model name are set a proper named log is used
 ######################################################
 
 #' Create an ARNAQ Report
