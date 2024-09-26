@@ -11,9 +11,9 @@
 # Make log prettier, include timestamps
 # Improve plots (especially dendro)
 # Infer plot flags from plot object
-# Check that Picard's duplication metrics file works as-is
 # Adds checks for sample order to metrics files
 # Change violin plots to log scale
+# Violin plots should consider every group
 # Automatically remove Groups with a single level if treat.groups is not specified
 ######################################################
 
