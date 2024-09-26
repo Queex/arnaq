@@ -15,6 +15,7 @@
 # Change violin plots to log scale
 # Violin plots should consider every group
 # Automatically remove Groups with a single level if treat.groups is not specified
+# Look into a better solution for caching data
 ######################################################
 
 #' Create an ARNAQ Report
