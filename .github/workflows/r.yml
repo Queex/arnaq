@@ -12,27 +12,16 @@ permissions:
 jobs:
   build:
     timeout-minutes: 60
-    runs-on: macos-latest
-    strategy:
-      matrix:
-        r-version: ['4.1.1']
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
-      - name: Set up R ${{ matrix.r-version }}
-        uses: r-lib/actions/setup-r@f57f1301a053485946083d7a45022b278929a78a
+      - name: Conda installation
+        uses: conda-incubator/setup-miniconda@v3
         with:
-          r-version: ${{ matrix.r-version }}
-      - name: Set up pandoc
-        uses: r-lib/actions/setup-pandoc@v2
-        with:
-          pandoc-version: '3.4' # The pandoc version to download (if necessary) and use.
-      - run: echo "# Test" | pandoc -t html
-      - name: Install dependencies
-        run: |
-          install.packages(c("remotes", "rcmdcheck"))
-          remotes::install_deps(dependencies = TRUE)
-        shell: Rscript {0}
-      - name: Check
-        run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "error")
-        shell: Rscript {0}
+          miniconda-version: "latest"
+          use-only-tar-bz2: true  # IMPORTANT: This needs to be set for caching to work properly!
+          auto-update-conda: true
+          auto-activate-base: true
+          activate-environment: arnaq_1.0
+          environment-file: inst/extdata/ARNAQ_env_1.0.yml
