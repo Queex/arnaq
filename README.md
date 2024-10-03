@@ -110,12 +110,12 @@ session will be sorted to match the columns of the count data.
 
 Github, unfortunately, will not display html files properly.
 
-- Description of the typical [workflow](vignettes/workflow.html) for ARNAQ.
-- [Examples](vignettes/creating-example-reports.html) of report generation using included data.
-- A list of the [files created](vignettes/files-created.html) during an ARNAQ run.
-- A list of the [objects created](vignettes/objects-created.html) in the R session during an ARNAQ
+- Description of the typical [workflow](vignettes/workflow.Rmd) for ARNAQ.
+- [Examples](vignettes/creating-example-reports.Rmd) of report generation using included data.
+- A list of the [files created](vignettes/files-created.Rmd) during an ARNAQ run.
+- A list of the [objects created](vignettes/objects-created.Rmd) in the R session during an ARNAQ
 run.
-- The structure of the [all.plots](vignettes/all-plots.html) object, to enable fine-tuning of
+- The structure of the [all.plots](vignettes/all-plots.Rmd) object, to enable fine-tuning of
 ARNAQ's plots.
 
 ## Example reports
