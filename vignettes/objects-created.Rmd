@@ -7,13 +7,6 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r opts, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
-
 ARNAQ creates a number of R objects in the course of a run, which remain available after the run is
 completed. The rationale for this is twofold. Firstly, some of this data (count tables read from 
 files, for example) is useful for any downstream analysis and it is useful to already have this

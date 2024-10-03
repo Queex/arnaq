@@ -7,13 +7,6 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r opts, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
-
 Apart from the QC report, ARNAQ will produce processed data files that can be archived or taken 
 forward for downstream analysis. All output files include the `project.id` specified in 
 `resource.yml` and the `model.name` parameter of `arnaq()` as part of
