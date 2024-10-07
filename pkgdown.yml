@@ -1,0 +1,11 @@
+pandoc: 2.19.2
+pkgdown: 2.0.6
+pkgdown_sha: ~
+articles:
+  all-plots: all-plots.html
+  creating-example-reports: creating-example-reports.html
+  files-created: files-created.html
+  objects-created: objects-created.html
+  workflow: workflow.html
+last_built: 2024-10-07T14:05Z
+
