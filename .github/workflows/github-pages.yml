@@ -16,10 +16,12 @@ jobs:
     needs: conda
     runs-on: ubuntu-latest
     steps:
+    - name: Activate conda
+      run: conda activate arnaq_1.0
     - name: check conda env
       run: echo $CONDA_DEFAULT_ENV
     - name: add pkgdown
-      run: conda install -y r-pkgdown
+      run: conda install -y -c conda-forge r-pkgdown
     - name: Report installed packages
       run: installed.packages()
       shell: Rscript {0}
