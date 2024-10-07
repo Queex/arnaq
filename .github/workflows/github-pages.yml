@@ -12,8 +12,14 @@ permissions: read-all
 jobs:
   conda:
     uses: ./.github/workflows/conda-env.yml
-  pkgdown:
+  conda-addenda:
     needs: conda
+    runs-on: ubuntu-latest
+    steps:
+    - name: add pkgdown
+      run: conda install r-pkgdown
+  pkgdown:
+    needs: conda-addenda
     runs-on: ubuntu-latest
     # Only restrict concurrency for non-PR jobs
     concurrency:
