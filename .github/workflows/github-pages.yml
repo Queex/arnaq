@@ -38,7 +38,7 @@ jobs:
       run: installed.packages()
       shell: Rscript {0}
     - name: Report installed packages 2
-      run: Rscript -e installed.packages()
+      run: Rscript -e "installed.packages()"
       shell: bash -el {0} # As per guide to make sure ~/.bashrc is used
     - name: Build site
       run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
