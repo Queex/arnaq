@@ -30,14 +30,14 @@ jobs:
         activate-environment: arnaq_1.0
         environment-file: inst/extdata/ARNAQ_env_1.0.yml
     - name: Check conda envs
-      run: conda env list
-    - name: Check current conda env
-      run: echo $CONDA_DEFAULT_ENV
+      run: conda info --env
     - name: add pkgdown
       run: conda install -y -c conda-forge r-pkgdown
     - name: Report installed packages
       run: installed.packages()
       shell: Rscript {0}
+    - name: Report installed packages 2
+      run: Rscript installed.packages()
     - name: Build site
       run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
       shell: Rscript {0}
