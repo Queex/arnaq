@@ -10,31 +10,30 @@ on:
 name: pkgdown.yaml
 permissions: read-all
 jobs:
-  conda:
-    uses: ./.github/workflows/conda-env.yml
-  conda-addenda:
-    needs: conda
-    runs-on: ubuntu-latest
-    steps:
-    - name: check conda env
-      run: conda env list
-    - name: add pkgdown
-      run: conda install -y -c conda-forge r-pkgdown
-    - name: Report installed packages
-      run: installed.packages()
-      shell: Rscript {0}
   pkgdown:
-    needs: conda-addenda
-    runs-on: ubuntu-latest
-    # Only restrict concurrency for non-PR jobs
     concurrency:
       group: pkgdown-${{ github.event_name != 'pull_request' || github.run_id }}
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     permissions:
       contents: write
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+    - name: Conda installation
+      uses: conda-incubator/setup-miniconda@v3
+      with:
+        miniconda-version: "latest"
+        use-only-tar-bz2: true  # IMPORTANT: This needs to be set for caching to work properly!
+        auto-update-conda: true
+        auto-activate-base: true
+        activate-environment: arnaq_1.0
+        environment-file: inst/extdata/ARNAQ_env_1.0.yml
+    - name: add pkgdown
+      run: conda install -y -c conda-forge r-pkgdown
+    - name: Report installed packages
+      run: installed.packages()
+      shell: Rscript {0}
     - name: Build site
       run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
       shell: Rscript {0}
