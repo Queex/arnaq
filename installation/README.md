@@ -57,7 +57,7 @@ not to wait, set `build_vignettes` to `FALSE`.
 
 The `dependencies` argument prevents R from trying to update dependencies; as you have
 built an environment using conda this should be unnecessary and any package upgrades might cause
-version incompatibility problems.
+version incompatibility problems. If you have not been able to use conda, set this to `TRUE`.
 
 ## Support Files
 
