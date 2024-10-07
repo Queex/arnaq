@@ -32,8 +32,10 @@ jobs:
     - name: Check conda envs
       shell: bash -el {0} # As per guide to make sure ~/.bashrc is used
       run: conda info --env
-    - name: add pkgdown
+    - name: Add pkgdown
       run: conda install -y -c conda-forge r-pkgdown
+    - name: Add ARNAQ
+      run: Rscript -e 'devtools::load_all("./", export_all=FALSE)'
     - name: Report installed packages
       run: Rscript -e "installed.packages()"
       shell: bash -el {0} # As per guide to make sure ~/.bashrc is used
