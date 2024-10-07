@@ -36,6 +36,7 @@ jobs:
       run: conda install -y -c conda-forge r-pkgdown
     - name: Add ARNAQ
       run: Rscript -e 'devtools::load_all("./", export_all=FALSE)'
+      shell: bash -el {0} # As per guide to make sure ~/.bashrc is used
     - name: Report installed packages
       run: Rscript -e "installed.packages()"
       shell: bash -el {0} # As per guide to make sure ~/.bashrc is used
