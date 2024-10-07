@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: add pkgdown
-      run: conda install r-pkgdown
+      run: conda install -y r-pkgdown
   pkgdown:
     needs: conda-addenda
     runs-on: ubuntu-latest
