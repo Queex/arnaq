@@ -16,8 +16,13 @@ jobs:
     needs: conda
     runs-on: ubuntu-latest
     steps:
+    - name: check conda env
+      run: echo $CONDA_DEFAULT_ENV
     - name: add pkgdown
       run: conda install -y r-pkgdown
+    - name: Report installed packages
+      run: installed.packages()
+      shell: Rscript {0}
   pkgdown:
     needs: conda-addenda
     runs-on: ubuntu-latest
