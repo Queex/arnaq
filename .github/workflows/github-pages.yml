@@ -29,6 +29,8 @@ jobs:
         auto-activate-base: true
         activate-environment: arnaq_1.0
         environment-file: inst/extdata/ARNAQ_env_1.0.yml
+    - name: Check conda envs
+      run: conda env list
     - name: add pkgdown
       run: conda install -y -c conda-forge r-pkgdown
     - name: Report installed packages
