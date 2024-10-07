@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Activate conda
-      run: conda activate base; conda activate arnaq_1.0
+      run: conda init; conda activate arnaq_1.0
     - name: check conda env
       run: echo $CONDA_DEFAULT_ENV
     - name: add pkgdown
