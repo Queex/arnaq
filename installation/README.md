@@ -48,15 +48,16 @@ a warning, but this does not seem to prevent ARNAQ from running.
 ## Installing ARNAQ from github
 
 ```{r install, eval=FALSE}
-devtools::install_github("Queex/arnaq", build_vignettes=TRUE)
+devtools::install_github("Queex/arnaq", build_vignettes=TRUE, upgrade_dependencies=FALSE)
 ```
-
-Despite the "helpful" message, it is best not to update existing packages when prompted as conda
-will have selected versions that are properly compatible with the other packages.
 
 This command will also build the vignettes, which can take a few minutes to complete as they
 include the generation of reports from exmaple data included in the package. If you would prefer
 not to wait, set `build_vignettes` to `FALSE`.
+
+The `upgrades_dependencies` argument prevents R from trying to update dependencies; as you have
+built an environment using conda this should be unnecessary and any packages upgrades might cause
+version incompatibility problems.
 
 ## Support Files
 

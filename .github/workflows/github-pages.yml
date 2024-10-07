@@ -35,7 +35,7 @@ jobs:
     - name: Add pkgdown
       run: conda install -y -c conda-forge r-pkgdown
     - name: Add ARNAQ
-      run: Rscript -e 'devtools::install_github("Queex/arnaq", build_vignettes=TRUE)'
+      run: Rscript -e 'devtools::install_github("Queex/arnaq", quick=TRUE, upgrade_dependencies=FALSE)'
       shell: bash -el {0} # As per guide to make sure ~/.bashrc is used
     - name: Report installed packages
       run: Rscript -e "installed.packages()"
