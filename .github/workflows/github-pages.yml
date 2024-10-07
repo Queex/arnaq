@@ -13,6 +13,7 @@ jobs:
   conda:
     uses: ./.github/workflows/conda-env.yml
   pkgdown:
+    needs: conda
     runs-on: ubuntu-latest
     # Only restrict concurrency for non-PR jobs
     concurrency:
