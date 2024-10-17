@@ -34,8 +34,8 @@ arnaq_report <- function(arnaq.run = arnaq.run,
   # barplots
   if (featureCount.metrics) {
     cat("Making barplots\n")
-    all_plots$barplots_ps <- plot_counts_barplot(read.summary, max.samples.per.page)
-    all_plots$barplots2_ps <- plot_counts_barplot(read.summary, max.samples.per.page, prop = TRUE)
+    all_plots$barplots_ps <- plot_counts_barplot(read.summary, , max.samples.per.page)
+    all_plots$barplots2_ps <- plot_counts_barplot(read.summary, , max.samples.per.page, prop = TRUE)
   }
 
   # violin plots of extra metrics
