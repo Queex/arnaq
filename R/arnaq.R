@@ -201,7 +201,8 @@ arnaq <- function(resources.file = "resources.yml",
   }
 
   if (outliers.removed) {
-    cat(paste("Remaining samples:", paste(tmp.sample.metadata$Display, collapse = " "), "\n"))
+    cat(paste("Remaining samples:", paste(sample.metadata$Display[sample.mask], collapse = " "),
+              "\n"))
   }
 
   assign("sample.mask", sample.mask, 1)
