@@ -9,7 +9,7 @@ Authors@R:
     person("Matthieu", "Miossec", role=c("ctb"))
 Author: Ben J Wright
 Maintainer: Ben J Wright <chthonic.games@gmail.com>
-URL: TODO
+URL: https://www.github.com/queex/arnaq
 BugReports: TODO
 Description: Performs secondary quality control assessment of an RNA data set, incorporating 
     information about the experimental design, to enable an analyst to identify potential data 
