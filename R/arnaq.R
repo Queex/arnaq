@@ -191,8 +191,21 @@ arnaq <- function(resources.file = "resources.yml",
     species.gtf <<- read.biotypes(arnaq.run$genome.file, resource.dir)
   }
 
+  # Sample mask
+  if (is.null(sample.mask)) {
+    sample.mask <- TRUE
+    outliers.removed <- FALSE
+  } else {
+    cat("Applying outlier mask.\n")
+    outliers.removed <- TRUE
+  }
+
+  assign("sample.mask", sample.mask, 1)
+
   # Make gene masks
-  gene.masks <<- make.gene.masks(count.data, species.gtf, ERCC = ERCC)
+  gene.masks <<- make.gene.masks(count.data, species.gtf, sample.mask, ERCC = ERCC)
+  # Do this using the sample mask so as to remove large swathes of erroneous non-zero genes if
+  # an outlier has garbage counts
 
   featureCount.metrics <- assignment.table != "None"
   if (featureCount.metrics) {
@@ -208,16 +221,7 @@ arnaq <- function(resources.file = "resources.yml",
                                                    sample.metadata$Display)
   }
 
-  # Sample mask
-  if (is.null(sample.mask)) {
-    sample.mask <- TRUE
-    outliers.removed <- FALSE
-  } else {
-    cat("Applying outlier mask.\n")
-    outliers.removed <- TRUE
-  }
 
-  assign("sample.mask", sample.mask, 1)
 
   # Check that samples named in scatter and ERCC exist in data
   tmp <- unique(c(unlist(ERCC.pairs), unlist(scatter.pairs)))

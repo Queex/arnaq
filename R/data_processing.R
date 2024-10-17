@@ -2,7 +2,7 @@
 # Processing
 
 # Makes gene masks. 
-make.gene.masks <- function(count.data, species.gtf, ERCC = TRUE) {
+make.gene.masks <- function(count.data, species.gtf, sample.mask = TRUE, ERCC = TRUE) {
   out <- list()
 
   if (!is.null(species.gtf)) {
@@ -14,7 +14,7 @@ make.gene.masks <- function(count.data, species.gtf, ERCC = TRUE) {
   cat("Total genes:", length(out$Genes_Z), "\n")
 
   # Remove zero lines
-  out$Genes <- rowSums(count.data) > 0 & out$Genes_Z
+  out$Genes <- rowSums(count.data[, sample.mask]) > 0 & out$Genes_Z
   cat(paste("Total genes with >0 reads:", sum(out$Genes), "\n"))
 
   if (length(out$Genes) == 0) {
@@ -45,7 +45,7 @@ make.gene.masks <- function(count.data, species.gtf, ERCC = TRUE) {
 }
 
 # Helper function for creating gene masks based on biotype
-make.gene.masks.helper <- function(masks, tmp.gtf, biotype) {
+make.gene.masks.helper <- function(masks, tmp.gtf, biotype, sample.mask) {
   masks[[paste0(biotype, "_Z")]] <- tmp.gtf$gene_biotype==biotype
   masks[[paste0(biotype)]] <- masks[[paste0(biotype, "_Z")]] & masks$Genes
   return(masks)
