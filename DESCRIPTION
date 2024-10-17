@@ -1,6 +1,6 @@
 Package: arnaq
 Title: Experiment-Aware Quality Control for RNA Sequencing
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: 
     person("Ben J", "Wright", email = "chthonic.games@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-9279-4594"))
     person("Helen", "Lockstone", role=c("ctb"))

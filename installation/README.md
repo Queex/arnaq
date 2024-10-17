@@ -4,7 +4,7 @@
 
 Apart from the R package requirements, ARNAQ also needs [pandoc](https://pandoc.org)
 on the system. If you are using Linux, it is simple and convenient to use
-[conda](https://anaconda.org/anaconda/conda) to 
+[conda](https://anaconda.org/anaconda/conda) to
 create an environment with `pandoc` and the required R packages.
 
 ### Installing dependencies with conda
@@ -39,7 +39,7 @@ install.packages("devtools")
 
 #### Caveats
 
-As of writing this guide, several dependencies of dependencies do not seem to be available for R 
+As of writing this guide, several dependencies of dependencies do not seem to be available for R
 version 4.4 via
 this install method. You can try installing them from Bioconductor manually, or use a previous
 version of R. If you follow the latter method, one package requires R 4.4 and up, which will raise
@@ -61,9 +61,9 @@ version incompatibility problems. If you have not been able to use conda, set th
 
 ## Support Files
 
-ARNAQ uses two support files to process the data and create reports, and one file specifying 
+ARNAQ uses two support files to process the data and create reports, and one file specifying
 metadata about the project. By default, ARNAQ will use internal versions of the first two. For the
-third, you will need to create it for every project. You can create this file manually, copy over 
+third, you will need to create it for every project. You can create this file manually, copy over
 and edit one from a previous project, or create a blank template using the following
 command:
 
@@ -100,7 +100,7 @@ ARNAQ presumes a particular directory structure for these files.
 
 `resource_dir` and `genome_reference` in `resources.yml` define the directory ARNAQ looks in for
 the `.gtf` file. The intention is that `resource_dir` gives the directory where a number of named
-genomes are placed, and can be kept the same for every project. `genome_reference` names the 
+genomes are placed, and can be kept the same for every project. `genome_reference` names the
 directory in that location where the correct `.gtf` file can be found. ARNAQ will use the first
 `.gtf` file it finds in that directory, so you don't have to rename files you download and risk
 losing information as to their version.

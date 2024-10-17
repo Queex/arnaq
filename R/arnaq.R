@@ -200,10 +200,14 @@ arnaq <- function(resources.file = "resources.yml",
     outliers.removed <- TRUE
   }
 
+  if (outliers.removed) {
+    cat(paste("Remaining samples:", paste(tmp.sample.metadata$Display, collapse = " "), "\n"))
+  }
+
   assign("sample.mask", sample.mask, 1)
 
   # Make gene masks
-  gene.masks <<- make.gene.masks(count.data, species.gtf, sample.mask, ERCC = ERCC)
+  gene.masks <<- make.gene.masks(count.data, species.gtf, sample.mask = sample.mask, ERCC = ERCC)
   # Do this using the sample mask so as to remove large swathes of erroneous non-zero genes if
   # an outlier has garbage counts
 
@@ -220,8 +224,6 @@ arnaq <- function(resources.file = "resources.yml",
     arnaq.run$count.metrics <- read.picard.metrics(metrics.table, duprate.table,
                                                    sample.metadata$Display)
   }
-
-
 
   # Check that samples named in scatter and ERCC exist in data
   tmp <- unique(c(unlist(ERCC.pairs), unlist(scatter.pairs)))
@@ -260,10 +262,6 @@ arnaq <- function(resources.file = "resources.yml",
   # Export filtered sample metadata
   save.counts(tmp.sample.metadata,
               paste0(arnaq.run$out.directory, "/", qc.name, "_sample_metadata.txt"))
-
-  if (outliers.removed) {
-    cat(paste("Remaining samples:", paste(tmp.sample.metadata$Display, collapse = " "), "\n"))
-  }
 
   # Save counts
   save.counts(tmp.count.data,
