@@ -13,7 +13,7 @@ output:
     pdf_document:
         toc: true
         number_sections: true
-        fig_width: 4
+        fig_width: 6
         fig_height: 4
 ---
 
