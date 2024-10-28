@@ -13,7 +13,8 @@ make.gene.masks <- function(count.data, species.gtf, sample.mask = TRUE, ERCC = 
     out$Genes_Z <- tmp1 & tmp2
   }
   names(out$Genes_Z) <- row.names(count.data)
-  cat("Total genes:", length(out$Genes_Z), "\n")
+  cat("Total lines in count table:", length(out$Genes_Z), "\n")
+  cat("Total after removing non-gene lines:", sum(out$Genes_Z), "\n")
 
   # Remove zero lines
   out$Genes <- rowSums(count.data[, sample.mask]) > 0 & out$Genes_Z
