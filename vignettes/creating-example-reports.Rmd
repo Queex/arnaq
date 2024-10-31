@@ -253,7 +253,7 @@ the normalisation can be assessed. The alternative, `linear`, performs a simple 
 normalisation. Any other value will suppress normalisation and the raw counts will be used.
 
 **The VSN normalisation is impractically slow for large sets; `linear` is strongly recommended for
-dataset with more than 30 samples.**
+datasets with more than 30 samples.**
 
 ```{r run_5}
 arnaq(model.name="linear", normalise="linear")
