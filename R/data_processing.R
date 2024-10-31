@@ -8,8 +8,8 @@ make.gene.masks <- function(count.data, species.gtf, sample.mask = TRUE, ERCC = 
   if (!is.null(species.gtf)) {
     out$Genes_Z <- row.names(count.data) %in% species.gtf$gene_id
   } else {
-    tmp1 <- grepl("ERCC-", rownames(count.data), invert=TRUE) # Remove any ERCC
-    tmp2 <- grepl("^__", rownames(count.data), invert=TRUE) # Remove any htseq.count summary lines
+    tmp1 <- !grepl("ERCC-", rownames(count.data)) # Remove any ERCC
+    tmp2 <- !grepl("^__", rownames(count.data)) # Remove any htseq.count summary lines
     out$Genes_Z <- tmp1 & tmp2
   }
   names(out$Genes_Z) <- row.names(count.data)
