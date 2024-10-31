@@ -267,7 +267,7 @@ In some circumstances, you may wish to view scatterplots of one sample against a
 because they are technical replicates or you wish to check that the expression levels are 
 appropriately concordant between them.
 
-You can specity which sample pairs using the `scatter.pairs` parameter.
+You can specify which sample pairs using the `scatter.pairs` parameter.
 
 ```{r run_6}
 arnaq(model.name="scatter", scatter.pairs=list(c("D10Myo_1", "D10Myo_2"), c("D15Myo_1", "D15Myo_2")))
