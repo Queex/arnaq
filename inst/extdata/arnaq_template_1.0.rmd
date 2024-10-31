@@ -17,7 +17,7 @@ output:
         fig_height: 4
 ---
 
-<!--- Generated QC document --->
+<!--- Generated ARNAQ document --->
 
 *Version: 0.1*
 
