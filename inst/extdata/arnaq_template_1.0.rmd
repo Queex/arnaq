@@ -177,7 +177,7 @@ samples cluster in a binary tree.
 
 ## Distance Heatmap {-}
 ```{r, distance_heatmap, echo=FALSE}
-	plot(all_plots$hcluster_ps[[1]])
+plot(all_plots$hcluster_ps[[1]])
 ```
 
 ## Distance Dendrogram {-}
