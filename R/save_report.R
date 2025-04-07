@@ -40,7 +40,7 @@ arnaq_report <- function(arnaq.run = arnaq.run,
 
   # violin plots of extra metrics
   if (picard.metrics) {
-    tmp <- plot_all_metrics_violin(arnaq.run$count.metrics, primary.treat.group)
+    tmp <- plot_all_metrics_violin(count.metrics, primary.treat.group)
     all_plots$violin1 <- tmp[[1]]
     all_plots$violin2 <- tmp[[2]]
   }
