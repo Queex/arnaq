@@ -113,7 +113,7 @@ The names of these files now need to be added to the `resources.yml` file.
 tmp_resources[5, 2] <- assignment_file
 tmp_resources[6, 2] <- dup_file
 tmp_resources[7, 2] <- metrics_file
-tmp_resources # Your count_table location will most likely differ
+tmp_resources # Your locations will most likely differ
 ```
 
 As before, in normal usage you will edit these details outside R. Also, you will probably only 
@@ -147,7 +147,7 @@ Now we add the relevant lines to `resources.yml`.
 tmp_resources[8, 2] <- "gtfs/" # The top directory where the gene sets are stored
 tmp_resources[3, 2] <- "GRCm39.112" # The name of the directory containing our desired .gtf file
 tmp_resources[2, 2] <- "GRCm39.112" # We can be more specific now
-tmp_resources # Your count_table location will most likely differ
+tmp_resources # Your locations will most likely differ
 write.table(tmp_resources, "resources.yml", quote=FALSE, sep=" ", col.names=FALSE, row.names=FALSE)
 ```
 
@@ -253,7 +253,7 @@ the normalisation can be assessed. The alternative, `linear`, performs a simple 
 normalisation. Any other value will suppress normalisation and the raw counts will be used.
 
 **The VSN normalisation is impractically slow for large sets; `linear` is strongly recommended for
-dataset with more than 30 samples.**
+datasets with more than 30 samples.**
 
 ```{r run_5}
 arnaq(model.name="linear", normalise="linear")
@@ -267,10 +267,10 @@ In some circumstances, you may wish to view scatterplots of one sample against a
 because they are technical replicates or you wish to check that the expression levels are 
 appropriately concordant between them.
 
-You can specity which sample pairs using the `scatter.pairs` parameter.
+You can specify which sample pairs using the `scatter.pairs` parameter.
 
 ```{r run_6}
-arnaq(model.name="scatter", scatter.pairs=list(c("D10Myo_1","D10Myo_2"),c("D15Myo_1","D15Myo_2")))
+arnaq(model.name="scatter", scatter.pairs=list(c("D10Myo_1", "D10Myo_2"), c("D15Myo_1", "D15Myo_2")))
 ```
 
 ## ERCC plots

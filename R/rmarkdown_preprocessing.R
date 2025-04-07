@@ -88,9 +88,9 @@ check.QC.template <- function(in.filename, expected.template.version) {
     cat("\n")
     stop(paste("Template ", in.filename, "does not exist."))
   }
-  if (!grepl("<!--- Generated QC document --->", rmd, TRUE)) {
+  if (!grepl("<!--- Generated ARNAQ document --->", rmd, TRUE)) {
     cat("\n")
-    stop(paste(in.filename, "does not seem to be a template for this QC tool."))
+    stop(paste(in.filename, "does not seem to be a template for ARNAQ."))
   }
   tmp <- paste0("Version: ", expected.template.version)
   if (!grepl(tmp, rmd, TRUE)) {

@@ -51,3 +51,4 @@ unitary_pseudogene	pseudogene	A species-specific unprocessed pseudogene without 
 unprocessed_pseudogene	pseudogene	Pseudogene that can contain introns since produced by gene duplication.
 vault_RNA	other	Short non coding RNA gene that forms part of the vault ribonucleoprotein complex.
 unknown	unknown	To handle mismatches between biotype table and the geneset used
+artifact    artifact    ???

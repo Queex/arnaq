@@ -13,11 +13,11 @@ output:
     pdf_document:
         toc: true
         number_sections: true
-        fig_width: 4
+        fig_width: 6
         fig_height: 4
 ---
 
-<!--- Generated QC document --->
+<!--- Generated ARNAQ document --->
 
 *Version: 0.1*
 
@@ -177,7 +177,7 @@ samples cluster in a binary tree.
 
 ## Distance Heatmap {-}
 ```{r, distance_heatmap, echo=FALSE}
-	plot(all_plots$hcluster_ps[[1]])
+plot(all_plots$hcluster_ps[[1]])
 ```
 
 ## Distance Dendrogram {-}
