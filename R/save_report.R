@@ -1,7 +1,7 @@
 # Creates all applicable plots and generates final report
 arnaq_report <- function(arnaq.run = arnaq.run,
                          rmarkdown_template, qc.name, genome.file, norm.data, count.data,
-                         sample.metadata, primary.treat.group, read.summary, count.metrics,
+                         sample.metadata, primary.treat.group, read.summary, tmp.count.metrics,
                          biotype.counts, complexity.mat,
                          cpm.mat, plot_directory, svg.export, ERCC = TRUE,
                          featureCount.metrics = TRUE, picard.metrics = TRUE,
@@ -40,7 +40,7 @@ arnaq_report <- function(arnaq.run = arnaq.run,
 
   # violin plots of extra metrics
   if (picard.metrics) {
-    tmp <- plot_all_metrics_violin(count.metrics, primary.treat.group)
+    tmp <- plot_all_metrics_violin(tmp.count.metrics, primary.treat.group)
     all_plots$violin1 <- tmp[[1]]
     all_plots$violin2 <- tmp[[2]]
   }
