@@ -253,7 +253,7 @@ arnaq <- function(resources.file = "resources.yml",
   }
   if (picard.metrics) {
     tmp.count.metrics <- list(
-      ByBase = arnaq.run$count.metrics$ByBase[sample.mask, , drop=FALSE],
+      ByBase = arnaq.run$count.metrics$ByBases[sample.mask, , drop=FALSE],
       ByOther = arnaq.run$count.metrics$ByOther[sample.mask, , drop=FALSE]
     )
   } else {
