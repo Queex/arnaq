@@ -20,12 +20,12 @@ plot_all_metrics_violin <- function(count.metrics, group) {
   cat("Making violin plots\n")
   violin1 <- plot_metrics_violin(
     count.metrics$ByBases,
-    sample.metadata[, c("Display", group)], c("Category", "Million Bases"),
+    sample.metadata[, c(3, group)], c("Category", "Million Bases"),
     "Count Metrics", 1 / 1000000
   )
   violin2 <- plot_metrics_violin(
     count.metrics$ByOther,
-    sample.metadata[, c("Display", group)], c("Metric", "Value"), "Other Metrics", 1
+    sample.metadata[, c(3, group)], c("Metric", "Value"), "Other Metrics", 1
   )
   return(list(violin1, violin2))
 }
