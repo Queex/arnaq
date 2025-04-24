@@ -46,7 +46,7 @@ arnaq_report <- function(arnaq.run = arnaq.run,
   }
 
   # Transformation plots
-  if (normalised == "VSN") {
+  if (normalised == "VSN" || normalised == "vsn") {
     cat("Making normalisation plot\n")
     all_plots$norm_plot <- plot_meanSdPlot(as.matrix(norm.data))
     # The difference between this and norm.data is that this method is unblinded
