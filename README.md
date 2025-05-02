@@ -126,3 +126,10 @@ using a proxy service:
 - [Report with alternative PCA](https://htmlpreview.github.io/?https://github.com/queex/arnaq/vignettes/GSE155423-alt-PCA-arnaq.html)
 - [Report with linear normalisation](https://htmlpreview.github.io/?https://github.com/queex/arnaq/vignettes/GSE155423-linear-arnaq.html)
 - [Report with sample-to-sample scatterplots](vignettes/GSE155423-scatter-arnaq.html)
+
+## Versions
+
+The major version number is incremented when a change alters the package dependencies, and thus
+requires a new environment. The minor version number is incremented when there is a change to the
+report template, or the format of the input files (including config), but the dependencies do not
+change. The release number increments for all other changes.
