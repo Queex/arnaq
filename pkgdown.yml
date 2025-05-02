@@ -1,5 +1,5 @@
 pandoc: 2.19.2
-pkgdown: 2.0.6
+pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   all-plots: all-plots.html
@@ -7,5 +7,5 @@ articles:
   files-created: files-created.html
   objects-created: objects-created.html
   workflow: workflow.html
-last_built: 2025-04-24T11:41Z
+last_built: 2025-05-02T09:58Z
 
