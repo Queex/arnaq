@@ -3,7 +3,7 @@
 ## Installing dependencies
 
 Apart from the R package requirements, ARNAQ also needs [pandoc](https://pandoc.org)
-on the system. If you are using Linux, it is simple and convenient to use
+installed on the system. If you are using Linux, it is simple and convenient to use
 [conda](https://anaconda.org/anaconda/conda) to
 create an environment with `pandoc` and the required R packages.
 
@@ -29,7 +29,8 @@ conda deactivate
 Several of ARNAQ's required packages are not available for Windows through bioconda. For Windows
 installation, or if you do not use conda on your system, a manual installation needs to be done.
 
-First install pandoc, from [here](https://pandoc.org/installing.html).
+First install pandoc, from
+[https://pandoc.org/installing.html)](https://pandoc.org/installing.html).
 
 Then make sure the `devtools` package is installed:
 
@@ -75,7 +76,8 @@ The same function can also be used to create copies of the other two files, if y
 them.
 
 These are stored as files outside R in order to make it possible for them to be automatically
-generated (or at least generated in part) by an upstream pipeline.
+generated (or at least generated in part) by an upstream pipeline, and to provide a record of
+the settings used outside the R session.
 
 ## External Support Files (.gtf)
 
@@ -86,10 +88,10 @@ genome you intend to use ARNAQ with. They are not included in ARNAQ's distributi
 specific for your mapping pipeline and match the gene identifiers in your count files.
 
 Specifically, ARNAQ presumes that Ensembl `.gtf` files for the organism are available. These should
-include identifiers drawn from the same set as the gene identifiers uses in the count tables. There
+include identifiers drawn from the same set as the gene identifiers used in the count tables. There
 should be a 'type' field, so ARNAQ can identify the gene-level entries. For the biotype portions of
 ARNAQ output, there should also be a 'gene_biotype' field. You may wish to filter the Ensembl files
-to just the entries with a `type` of `"gene"`, to reduce the size of the file and make ARNAQ runs
+to just the entries with a `type` of `"gene"`, to reduce the size of the file so ARNAQ runs
 faster, but it is not required.
 
 You will only need one such file for each reference genome you are working with.
