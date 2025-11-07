@@ -7,11 +7,13 @@ read.biotype.conversion.table <- function(sources_vec) {
 }
 
 # Reads the gtf reference file, including biotypes
-read.biotypes <- function(annotation.file) {
+read.biotypes <- function(annotation.dir) {
   cat("Reading gtf file\n")
   if (exists("species.gtf")) {
     species.gtf
   } else {
+    annotation.file <- paste(annotation.dir, list.files(annotation.dir, pattern = ".*\\.gtf$")[1],
+                             sep = "/")
     species.gtf <- rtracklayer::readGFF(annotation.file)
     species.gtf <- species.gtf[species.gtf$type == "gene", ]
     species.gtf

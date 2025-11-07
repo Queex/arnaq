@@ -124,11 +124,9 @@ as is done here for demonstration.
 
 Part of ARNAQ's report uses biotype information from Ensembl gene set data. These are specific to
 both the organism and the build of the genome uses for mapping, so there will likely be a need to
-keep several such `.gtf` files in parallel. ARNAQ assumes a specific directory structure for where
-these references are stored, to try to minimise the time spent setting up each individual project.
-
-In this example we will put this structure in the working directory; although it is 
-better to put it in a more general location for regular usage.
+keep several such `.gtf` files in parallel. In order to avoid any problems resulting from long and
+complicated filenames, ARNAQ assumes each `.gtf` file occupies its own directory. The
+`resources.yml` file gives this directory and ARNAQ looks for a single `.gtf` file in that location.
 
 ```{r gtf}
 dir.create("gtfs", showWarnings=FALSE)
@@ -144,12 +142,13 @@ Now we add the relevant lines to `resources.yml`.
 
 
 ```{r resources_with_gtf}
-tmp_resources[3, 2] <- "gtfs/GRCm39.112" # Our desired .gtf file
+tmp_resources[3, 2] <- "gtfs/GRCm39.112" # The directory of our desired .gtf file
 tmp_resources # Your locations will most likely differ
 write.table(tmp_resources, "resources.yml", quote=FALSE, sep=" ", col.names=FALSE, row.names=FALSE)
 ```
 
-ARNAQ identifies the target gene set by the directory name rather than filename for brevity.
+In general, it is better to store these `.gtf` files in a common location rather alongside any
+particular project, it is only done so here for demonstration putposes.
 
 ## Second report
 
