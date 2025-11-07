@@ -1,6 +1,6 @@
 project_id: ????
 species: ????
-genome_reference: /path/to/your/gtf/file/
+genome_reference: None
 count_table: ????
 summary_table: None
 duplication_table: None
