@@ -144,9 +144,7 @@ Now we add the relevant lines to `resources.yml`.
 
 
 ```{r resources_with_gtf}
-tmp_resources[8, 2] <- "gtfs/" # The top directory where the gene sets are stored
-tmp_resources[3, 2] <- "GRCm39.112" # The name of the directory containing our desired .gtf file
-tmp_resources[2, 2] <- "GRCm39.112" # We can be more specific now
+tmp_resources[3, 2] <- "gtfs/GRCm39.112" # Our desired .gtf file
 tmp_resources # Your locations will most likely differ
 write.table(tmp_resources, "resources.yml", quote=FALSE, sep=" ", col.names=FALSE, row.names=FALSE)
 ```

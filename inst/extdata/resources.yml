@@ -1,11 +1,10 @@
 project_id: ????
 species: ????
-genome_reference: None
+genome_reference: /path/to/your/gtf/file
 count_table: ????
 summary_table: None
 duplication_table: None
 metrics_table: None
-resource_dir: /path/to/your/structured/gtf/files/
 report_template: INTERNAL
 biotype_conversion: INTERNAL
 ercc_concentrations: None

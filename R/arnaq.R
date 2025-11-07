@@ -120,8 +120,7 @@ arnaq <- function(resources.file = "resources.yml",
   cat(paste("Script version:", arnaq.version, "\n\n"))
   resources <- read.resources.file(resources.file)
   required.resources <- c(
-    "project_id", "count_table", "report_template",
-    "resource_dir", "species"
+    "project_id", "count_table", "report_template", "species"
   )
   optional.resources <- c(
     "summary_table", "duplication_table", "metrics_table",
@@ -148,7 +147,6 @@ arnaq <- function(resources.file = "resources.yml",
   duprate.table <- resources[["duplication_table"]]
   metrics.table <- resources[["metrics_table"]]
   ercc.table <- resources[["ercc_concentrations"]]
-  resource.dir <- resources[["resource_dir"]]
   species <- resources[["species"]]
   biotype.conversion <- resources[["biotype_conversion"]]
   if (biotype.conversion == "INTERNAL") {
@@ -190,7 +188,7 @@ arnaq <- function(resources.file = "resources.yml",
   if (arnaq.run$genome.file == "None" || arnaq.run$genome.file == "none") {
     species.gtf <<- NULL
   } else {
-    species.gtf <<- read.biotypes(arnaq.run$genome.file, resource.dir)
+    species.gtf <<- read.biotypes(arnaq.run$genome.file)
   }
 
   # Sample mask
