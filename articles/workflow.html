@@ -215,7 +215,8 @@ run before using it.</em></p>
 compatible masks using logical operators and the sample metadata:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">group.AB.mask</span> <span class="op">&lt;-</span> <span class="va">sample.metadata</span><span class="op">$</span><span class="va">Group</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/arnaq.html">arnaq</a></span><span class="op">(</span>model.name <span class="op">=</span> <span class="st">"groups_A_and_B"</span>, sample.mask <span class="op">=</span> <span class="va">group.AB.mask</span><span class="op">)</span> <span class="co"># Will only consider samples in groups A and B</span></span></code></pre></div>
+<span><span class="co"># Only consider samples in groups A and B</span></span>
+<span><span class="fu"><a href="../reference/arnaq.html">arnaq</a></span><span class="op">(</span>model.name <span class="op">=</span> <span class="st">"groups_A_and_B"</span>, sample.mask <span class="op">=</span> <span class="va">group.AB.mask</span><span class="op">)</span></span></code></pre></div>
 <p>In both examples, a <code>model.name</code> parameter is given to
 differentiate the output. ARNAQ will overwrite the objects in the
 session with new versions each time it is run, but the output files will
