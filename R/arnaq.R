@@ -18,7 +18,6 @@
 # Look into a better solution for caching data
 # Change logging so that once project and model name are set a proper named log is used
 # Store hclust/dendro object for examination in analysis
-# Allow custom gene masks as well as mask by sample name
 ######################################################
 
 #' Create an ARNAQ Report
@@ -415,7 +414,8 @@ make_outlier_mask <- function(outlier.names) {
 
 #' Removes ARNAQ objects
 #'
-#' Removes objects ARNAQ creates from the current session. This is useful to force ARNAQ to load
+#' Removes objects that ARNAQ has created from the current session. This is useful to force ARNAQ 
+#' to load
 #' files from disk if they have been changed, or to 'clean up' the session for downstream analysis.
 #' Any warnings (such as due to the objects not existing) are suppressed.
 #'

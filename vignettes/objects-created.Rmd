@@ -73,7 +73,7 @@ This is a list of logical masks for genes, rather than samples. Most categories 
 - `ERCC` are for ERCC spike-ins. Any gene identifier that starts with ERCC will be considered as 
 such, if ERCC functionality is turned on in `arnaq()`.
 - `protein_coding`, `miRNA`, `lncRNA`, `sRNA`, `snoRNA`, `snRNA` and `scaRNA`, as defined in the 
-.gtf file, are present. tRNA is listed as 'sRNA' in the Ensembl data file.
+.gtf file, are present. tRNA is named 'sRNA' in the Ensembl data file.
 - `ncRNA` represents the union of the previous set of categories.
 
 For all masks except ERCC, the main masks excludes genes with no reads for any sample. If you want

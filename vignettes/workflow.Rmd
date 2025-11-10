@@ -126,7 +126,8 @@ logical operators and the sample metadata:
 
 ```{r group, eval=FALSE}
 group.AB.mask <- sample.metadata$Group %in% c("A", "B")
-arnaq(model.name = "groups_A_and_B", sample.mask = group.AB.mask) # Will only consider samples in groups A and B
+# Only consider samples in groups A and B
+arnaq(model.name = "groups_A_and_B", sample.mask = group.AB.mask)
 ```
 
 In both examples, a `model.name` parameter is given to differentiate the output. ARNAQ will 
