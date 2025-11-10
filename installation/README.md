@@ -10,7 +10,7 @@ create an environment with `pandoc` and the required R packages.
 ### Installing dependencies with conda
 
 The file `ARNAQ_env.yml` can be used with `conda` to set up a suitable environment. The enviroment
-file can be found [here](https://github.com/Queex/arnaq/blob/main/inst/extdata/ARNAQ_env_1.0.yml).
+file can be found [as part of the github repository](https://github.com/Queex/arnaq/blob/main/inst/extdata/ARNAQ_env_1.0.yml).
 From the command line:
 
 ```{bash conda_1, eval=FALSE}
@@ -117,22 +117,17 @@ If your directory looks like this:
     └── GrCm39.20240317.gtf
 ```
 
-The matching lines in `resources.yml` would be:
+The matching line in `resources.yml` would be:
 
 ```{text}
-resource_dir: /some/directory/you/have/
-genome_reference: GRCh38
+genome_reference: /some/directory/you/have/GRCh38
 ```
 
 or
 
 ```{text}
-resource_dir: /some/directory/you/have/
-genome_reference: GRCm39
+genome_reference: /some/directory/you/have/GRCm39
 ```
-
-The directory path should be an absolute path; so you don't have to adjust it between projects in
-different directories.
 
 ## ERCC Reference
 
