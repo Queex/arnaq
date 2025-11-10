@@ -1,6 +1,6 @@
 Package: arnaq
 Title: Experiment-Aware Quality Control for RNA Sequencing
-Version: 0.0.3
+Version: 1.0.0
 Authors@R: 
     person("Ben J", "Wright", email = "chthonic.games@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-9279-4594"))
     person("Helen", "Lockstone", role=c("ctb"))
@@ -11,7 +11,7 @@ Authors@R:
 Author: Ben J Wright
 Maintainer: Ben J Wright <chthonic.games@gmail.com>
 URL: https://www.github.com/queex/arnaq
-BugReports: TODO
+BugReports: https://github.com/Queex/arnaq/issues
 Description: Performs secondary quality control assessment of an RNA data set, incorporating 
     information about the experimental design, to enable an analyst to identify potential data 
     quality issues such as sample swaps, batch effects and failed samples. Produces an html report 
