@@ -2,6 +2,7 @@
 #' 
 #' From a read assignment table, produces a list of plots for the samples in the table.
 #' @param counts The read count table, samples as columns.
+#' @param title The title to give the plot.
 #' @param max.samples.per.page The maximum number of bars a single plot should have. When this is
 #' exceeded, there will be multiple plots produced.
 #' @param proportional If `TRUE`, the plots will show the proportion of each assignment category

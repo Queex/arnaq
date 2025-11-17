@@ -7,12 +7,13 @@
 arnaq_clear(remove.all = TRUE)
 }
 \arguments{
-\item{all}{If the default of \code{TRUE}, all of ARNAQ's objects will be removed. Otherwise,
+\item{remove.all}{If the default of \code{TRUE}, all of ARNAQ's objects will be removed. Otherwise,
 \code{count.data}, \code{gene.masks}, \code{sample.mask} and \code{sample.metadata} will be kept, as the objects
 needed for downstream analysis.}
 }
 \description{
-Removes objects ARNAQ creates from the current session. This is useful to force ARNAQ to load
+Removes objects that ARNAQ has created from the current session. This is useful to force ARNAQ
+to load
 files from disk if they have been changed, or to 'clean up' the session for downstream analysis.
 Any warnings (such as due to the objects not existing) are suppressed.
 }

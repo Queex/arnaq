@@ -1,7 +1,7 @@
 # Helper function for saving out count tables sensibly.
 save.counts <- function(data, filename) {
   cat(paste("Writing count data to table:", filename, "\n"))
-  write.table(data, filename, sep = "\t", quote = FALSE, row.names = TRUE)
+  utils::write.table(data, filename, sep = "\t", quote = FALSE, row.names = TRUE)
 }
 
 # Convenience function to make sure a directory exists to write to.

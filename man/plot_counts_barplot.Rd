@@ -14,6 +14,8 @@ plot_counts_barplot(
 \arguments{
 \item{counts}{The read count table, samples as columns.}
 
+\item{title}{The title to give the plot.}
+
 \item{max.samples.per.page}{The maximum number of bars a single plot should have. When this is
 exceeded, there will be multiple plots produced.}
 

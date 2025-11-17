@@ -25,4 +25,4 @@
 #' @docType package
 #' @name arnaq
 #' @seealso `\link{arnaq}`
-NULL
+"_PACKAGE"

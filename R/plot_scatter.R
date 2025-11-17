@@ -23,7 +23,7 @@ plot_reads_scatter <- function(norm.dat, dat.for.filter=norm.dat, col1name, col2
   dat <- data.frame(norm.dat[, c(col1name, col2name)])
   dat <- dat[rowSums(dat.for.filter >= filter.threshold) == 2, ]
 
-  dat.corr <- round(cor(dat[, 1], dat[, 2]), 3)
+  dat.corr <- round(stats::cor(dat[, 1], dat[, 2]), 3)
 
   if (is.null(title)) {
     title <- paste(col1name, "v", col2name)

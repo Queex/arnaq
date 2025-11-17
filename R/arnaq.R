@@ -52,7 +52,7 @@
 #' tables and metric tables. The default looks for the file `resources.yml` in your working
 #' directory, and is useful when you
 #' have one project per directory.
-#' @param samples.txt The file containin sample-centric data. The default looks for the file
+#' @param sample.file The file containing sample-centric data. The default looks for the file
 #' `samples.txt` in your working directory, and is useful when you have one project per
 #' directory.
 #' @param model.name An optional model name that allows you to have multiple ARNAQ reports in
@@ -76,7 +76,7 @@
 #' @param svg.export If set to `TRUE`, create an additional directory in the output called
 #' `svg` with svg versions of every plot created in the report, suitable for inclusion in
 #' papers.
-#' @param max.sample.per.page In projects with a large number of samples, some plots will be
+#' @param max.samples.per.page In projects with a large number of samples, some plots will be
 #' spread across multiple 'pages' in the output report, to keep them readable. Alter the default
 #' value to fine-tune the point at which this behaviour will occur.
 #' @param pca.depth How many components to use when preparing PCA plots. Components beyond 2 will
@@ -97,10 +97,11 @@
 #' @seealso \code{\link{make_outlier_mask}}
 #' @seealso `\link{arnaq_clear}`
 #' @examples
+#' \dontrun{
 #' arnaq()
 #' arnaq("some/other/location/resources.yml", "some/other/location/samples.txt")
 #' arnaq(model.name = "outliers removed", sample.mask = some_mask, normalise = "linear")
-#'
+#' }
 #' @export
 arnaq <- function(resources.file = "resources.yml",
                   sample.file = "samples.txt", model.name = NULL, sample.mask = NULL,
@@ -112,8 +113,10 @@ arnaq <- function(resources.file = "resources.yml",
   clear.sinks()
   sink("arnaq.log", split = TRUE)
 
+  dummy <- function() hexbin::hexbin()
+
   template.version <- "1"
-  arnaq.version <- packageVersion("arnaq")
+  arnaq.version <- utils::packageVersion("arnaq")
 
   cat("Starting ARNAQ\n")
   cat(paste("Version:", arnaq.version, "\n\n"))
@@ -320,7 +323,7 @@ arnaq <- function(resources.file = "resources.yml",
   # Use DESeq2
   if (normalise == "VSN" || normalise == "vsn") {
     cat("Applying variance stabilising normalisation\n")
-    arnaq.run$model.formula <- formula(paste0(
+    arnaq.run$model.formula <- stats::formula(paste0(
       "~",
       paste(colnames(tmp.sample.metadata)[treat.cols], collapse = " + ")
     ))
@@ -421,7 +424,7 @@ make_outlier_mask <- function(outlier.names) {
 #' It is good practice to put `arnaq_clear()` at the top of your script so if you rerun from scratch
 #' you can be sure the data is created afresh.
 #'
-#' @param all If the default of `TRUE`, all of ARNAQ's objects will be removed. Otherwise,
+#' @param remove.all If the default of `TRUE`, all of ARNAQ's objects will be removed. Otherwise,
 #' `count.data`, `gene.masks`, `sample.mask` and `sample.metadata` will be kept, as the objects
 #' needed for downstream analysis.
 #'

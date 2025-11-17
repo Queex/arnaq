@@ -9,14 +9,14 @@
 #' 
 #' @export
 plot_all_clustering <- function(data) {
-  dists <- dist(t(data))
-  spearman.dists <- cor(data, method = "spearman")
+  dists <- stats::dist(t(data))
+  spearman.dists <- stats::cor(data, method = "spearman")
   return(list(
     plot_clustering_heatmap(as.matrix(dists), "Distance-based heatmap", reverse.palette = FALSE),
-    plot_clustering_dendrogram(hclust(dists), "Distance-based hierarchical clustering"),
+    plot_clustering_dendrogram(stats::hclust(dists), "Distance-based hierarchical clustering"),
     plot_clustering_heatmap(spearman.dists, "Spearman correlation heatmap", reverse.palette = TRUE),
     plot_clustering_dendrogram(
-      hclust(as.dist(1 - spearman.dists), method = "ward.D2"),
+      stats::hclust(stats::as.dist(1 - spearman.dists), method = "ward.D2"),
       "Spearman's rank-based hierarchical clustering"
     )
   ))
@@ -50,7 +50,7 @@ plot_clustering_heatmap <- function(mat, main, reverse.palette = FALSE) {
 
 # Convenience function for producing dendrograms
 plot_clustering_dendrogram <- function(hclust.obj, title) {
-  dend <- as.dendrogram(hclust.obj)
+  dend <- stats::as.dendrogram(hclust.obj)
   the.plot <- ggplot2::ggplot(dendextend::as.ggdend(dend)) + ggplot2::labs(title=title)
   heights <- dendextend::get_branches_heights(dend)
   the.plot <- the.plot + ggplot2::ylim(-2 * min(heights), max(heights))

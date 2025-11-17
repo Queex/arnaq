@@ -5,6 +5,7 @@ vignette: >
   %\VignetteIndexEntry{Creating Example Reports}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteDepends{R.utils}
 ---
 
 ```{r opts, include = FALSE}

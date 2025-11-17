@@ -38,7 +38,7 @@ plot_complexity_curves <- function(complexity.mat, highlight = TRUE, threshold =
   retain <- round(retain)
   retain <- unique(c(
     retain,
-    aggregate(complexity.mat$Count, by = list(complexity.mat$Sample), FUN = max)$x
+    stats::aggregate(complexity.mat$Count, by = list(complexity.mat$Sample), FUN = max)$x
   ))
   complexity.mat <- complexity.mat[complexity.mat$Count %in% retain, ]
 
@@ -82,7 +82,7 @@ plot_complexity_curves <- function(complexity.mat, highlight = TRUE, threshold =
 #' @returns A plot showing detected genes at different count levels, for each sample, with
 #' the least complex samples highlighted.
 #' @export
-plot_detected_curves <- function(masked.cpm.data, highlight = TRUE, thresh = 8, pivot = 1) {
+plot_detected_curves <- function(masked.cpm.data, highlight = TRUE, threshold = 8, pivot = 1) {
 
   cpm.values <- (1:100) / 10
   tmp <- reshape2::melt(apply(
@@ -103,7 +103,7 @@ plot_detected_curves <- function(masked.cpm.data, highlight = TRUE, thresh = 8, 
     # Catch any samples with fewer than pivot genes
     sparse <- table(tmp$Sample)
     sparse <- names(sparse)[sparse < pivot]
-    worst <- c(sparse, as.character(worst))[seq_len(min(thresh, length(samp.levels)))]
+    worst <- c(sparse, as.character(worst))[seq_len(min(threshold, length(samp.levels)))]
     cols <- scales::hue_pal()(length(worst))
     names(cols) <- worst
   }

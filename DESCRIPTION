@@ -1,15 +1,13 @@
 Package: arnaq
 Title: Experiment-Aware Quality Control for RNA Sequencing
 Version: 1.0.0
-Authors@R: 
-    person("Ben J", "Wright", email = "chthonic.games@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-9279-4594"))
-    person("Helen", "Lockstone", role=c("ctb"))
-    person("Eshita", "Sharma", role=c("ctb"))
-    person("Santiago", "Revale", role=c("ctb"))
-    person("Matthieu", "Miossec", role=c("ctb"))
-    person("Duncan", "Parkes", role=c("ctb"))
-Author: Ben J Wright
-Maintainer: Ben J Wright <chthonic.games@gmail.com>
+Authors@R: c(
+    person("Ben J", "Wright", email = "chthonic.games@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-9279-4594")),
+    person("Helen", "Lockstone", role=c("ctb")),
+    person("Eshita", "Sharma", role=c("ctb")),
+    person("Santiago", "Revale", role=c("ctb")),
+    person("Matthieu", "Miossec", role=c("ctb")),
+    person("Duncan", "Parkes", role=c("ctb")))
 URL: https://www.github.com/queex/arnaq
 BugReports: https://github.com/Queex/arnaq/issues
 Description: Performs secondary quality control assessment of an RNA data set, incorporating 
@@ -19,7 +17,7 @@ Description: Performs secondary quality control assessment of an RNA data set, i
 License: GPL-3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Imports:
     reshape2,
     ggplot2,
@@ -32,12 +30,14 @@ Imports:
     scales,
     hexbin,
     tinytex,
-    R.utils,
-    R.rsp
+    SummarizedExperiment,
+    R.rsp,
+    utils,
+    stats
 SystemRequirements: pandoc
 Suggests: 
     knitr,
-    R.rsp
+    R.utils
 VignetteBuilder:
     knitr,
     R.rsp
