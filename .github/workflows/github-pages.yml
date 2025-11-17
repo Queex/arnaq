@@ -27,8 +27,8 @@ jobs:
         use-only-tar-bz2: true  # IMPORTANT: This needs to be set for caching to work properly!
         auto-update-conda: true
         auto-activate-base: false
-        environment-file: inst/extdata/ARNAQ_env_1.0.yml
-        activate-environment: arnaq_1.0
+        environment-file: inst/extdata/ARNAQ_env_1.yml
+        activate-environment: arnaq_1
     - name: Check conda envs
       shell: bash -el {0} # As per guide to make sure ~/.bashrc is used
       run: conda info --env
