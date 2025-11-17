@@ -38,14 +38,6 @@ Then make sure the `devtools` package is installed:
 install.packages("devtools")
 ```
 
-#### Caveats
-
-As of writing this guide, several dependencies of dependencies do not seem to be available for R
-version 4.4 via
-this install method. You can try installing them from Bioconductor manually, or use a previous
-version of R. If you follow the latter method, one package requires R 4.4 and up, which will raise
-a warning, but this does not seem to prevent ARNAQ from running.
-
 ## Installing ARNAQ from github
 
 ```{r install, eval=FALSE}
