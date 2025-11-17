@@ -104,7 +104,7 @@
 <p>The goal of ARNAQ is to make the process of producing a context-aware QC report as quick and error-free as possible, so analyst time can instead be spent elsewhere.</p>
 <p>Metadata about the experiment (such as reference genome) and metadata about samples (such as group membership) is typically available outside R, and as such ARNAQ reads files for this information, which can either be generated as part of a pipeline or adapted from existing files by hand.</p>
 <p>With these files created, the process for creating a report can be as simple as a single line:</p>
-<pre><code><span><span class="fu"><a href="reference/arnaq.html">arnaq</a></span><span class="op">(</span><span class="op">)</span></span></code></pre>
+<p><code>{r, eval=FALSE} arnaq()</code></p>
 <p>The rationale is that the critical parameters for an analysis should not be buried inside a long list of R calls. By placing them in tables, and permitted automated generation as part of a pipeline, it is easy to visually check that the correct metadata is being used.</p>
 </div>
 <div class="section level2">
@@ -129,7 +129,7 @@
 <strong>species</strong>: a species identifier, which will be listed in the report but not used for any</li>
 <li>processing. This can be a more presentation-ready equivalent of <code>genome_reference</code>, next.</li>
 <li>
-<strong>genome_reference</strong>: the directory name containing the <code>.gtf</code> file with gene definitions. See below for how to set this.</li>
+<strong>genome_reference</strong>: the directory name containing the <code>.gtf</code> file with gene definitions.</li>
 <li>
 <strong>count_table</strong>: this is the location of the count table file.</li>
 <li>
@@ -138,8 +138,6 @@
 <strong>duplication_table</strong>: this is the location of a table of duplication rates by sample. If listed as ‘None’, it is assumed to be unavailable.</li>
 <li>
 <strong>metrics_table</strong>: this is the location of the Picard metrics file. If listed as ‘None’, it is assumed to be unavailable.</li>
-<li>
-<strong>resource_dir</strong>: is the parent directory for all genome references, as described below.</li>
 <li>
 <strong>report_template</strong>: this is a path to an rmarkdown template used to build the report. The default of <code>INTERNAL</code> will use the standard report in the ARNAQ package. You only need to change this if you intend to alter the template.</li>
 <li>
@@ -191,7 +189,7 @@
 <div class="section level2">
 <h2 id="versions">Versions<a class="anchor" aria-label="anchor" href="#versions"></a>
 </h2>
-<p>The major version number is incremented when a change alters the package dependencies, and thus requires a new environment. The minor version number is incremented when there is a change to the report template, or the format of the input files (including config), but the dependencies do not change. The release number increments for all other changes.</p>
+<p>Version numbering follows the Bioconductor pattern, where even minor version numbers are a release version and odd minor version numbers indicate a development version. Major version is incremented when the <code>resources.yml</code> format changes, or the report template changes.</p>
 </div>
 </div>
   </div>
