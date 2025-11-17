@@ -30,7 +30,7 @@ Several of ARNAQ's required packages are not available for Windows through bioco
 installation, or if you do not use conda on your system, a manual installation needs to be done.
 
 First install pandoc, from
-[https://pandoc.org/installing.html)](https://pandoc.org/installing.html).
+[https://pandoc.org/installing.html](https://pandoc.org/installing.html).
 
 Then make sure the `devtools` package is installed:
 
