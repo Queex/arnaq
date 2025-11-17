@@ -1,4 +1,4 @@
-name: arnaq_1.0
+name: arnaq_1
 channels:
   - conda-forge
   - bioconda

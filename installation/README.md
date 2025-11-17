@@ -10,12 +10,12 @@ create an environment with `pandoc` and the required R packages.
 ### Installing dependencies with conda
 
 The file `ARNAQ_env.yml` can be used with `conda` to set up a suitable environment. The enviroment
-file can be found [as part of the github repository](https://github.com/Queex/arnaq/blob/main/inst/extdata/ARNAQ_env_1.0.yml).
+file can be found [as part of the github repository](https://github.com/Queex/arnaq/blob/main/inst/extdata/ARNAQ_env_1.yml).
 From the command line:
 
 ```{bash conda_1, eval=FALSE}
-conda env create -f ARNAQ_env_1.0.yml
-conda activate arnaq_1.0
+conda env create -f ARNAQ_env_1.yml
+conda activate arnaq_1
 ```
 
 When you are done, you can use the usual conda command to return to the standard environment.

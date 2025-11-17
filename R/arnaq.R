@@ -112,11 +112,10 @@ arnaq <- function(resources.file = "resources.yml",
   clear.sinks()
   sink("arnaq.log", split = TRUE)
 
-  arnaq.version <- "0.1"
-  template.version <- "1.0"
+  template.version <- "1"
 
   cat("Starting ARNAQ\n")
-  cat(paste("Script version:", arnaq.version, "\n\n"))
+  cat(paste("Version:", packageVersion("arnaq"), "\n\n"))
   resources <- read.resources.file(resources.file)
   required.resources <- c(
     "project_id", "count_table", "report_template", "species"
@@ -159,10 +158,9 @@ arnaq <- function(resources.file = "resources.yml",
   }
   arnaq.report.template <<- arnaq.report.template
   arnaq.run$genome.file <- resources[["genome_reference"]]
-  expected.template.version <- "0.1"
   arnaq.run$out.directory <- "QC/"
 
-  check.QC.template(arnaq.report.template, expected.template.version)
+  check.QC.template(arnaq.report.template, template.version)
 
   cat("\n")
 
