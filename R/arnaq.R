@@ -113,9 +113,10 @@ arnaq <- function(resources.file = "resources.yml",
   sink("arnaq.log", split = TRUE)
 
   template.version <- "1"
+  arnaq.version <- packageVersion("arnaq")
 
   cat("Starting ARNAQ\n")
-  cat(paste("Version:", packageVersion("arnaq"), "\n\n"))
+  cat(paste("Version:", arnaq.version, "\n\n"))
   resources <- read.resources.file(resources.file)
   required.resources <- c(
     "project_id", "count_table", "report_template", "species"
