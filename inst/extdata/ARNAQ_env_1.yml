@@ -14,7 +14,6 @@ dependencies:
   - r-hexbin
   - r-r.utils
   - r-devtools
-  - r-r.rsp
   - bioconductor-deseq2
   - bioconductor-vsn
   - bioconductor-rtracklayer
