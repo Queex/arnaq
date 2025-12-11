@@ -31,7 +31,6 @@ Imports:
     hexbin,
     tinytex,
     SummarizedExperiment,
-    R.rsp,
     utils,
     stats
 SystemRequirements: pandoc
