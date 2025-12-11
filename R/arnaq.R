@@ -110,16 +110,21 @@ arnaq <- function(resources.file = "resources.yml",
                   ERCC.pairs = list(), ERCC.combined = TRUE, scatter.pairs = list(),
                   gene.mask.name = "Genes") {
 
+  # Set sinks
   clear.sinks()
   sink("arnaq.log", split = TRUE)
 
+  # Fix to convince CMD check that we do actually use this package
   dummy <- function() hexbin::hexbin()
 
+  # Package version info
   template.version <- "1"
   arnaq.version <- utils::packageVersion("arnaq")
 
   cat("Starting ARNAQ\n")
   cat(paste("Version:", arnaq.version, "\n\n"))
+
+  # Load resources file and check the right lines are there
   resources <- read.resources.file(resources.file)
   required.resources <- c(
     "project_id", "count_table", "report_template", "species"
@@ -168,6 +173,7 @@ arnaq <- function(resources.file = "resources.yml",
 
   cat("\n")
 
+  # Create name for this QC run
   qc.name <<- ifelse(is.null(model.name), arnaq.run$project.id,
     paste(arnaq.run$project.id, model.name, sep = "_")
   )
@@ -416,7 +422,7 @@ make_outlier_mask <- function(outlier.names) {
 
 #' Removes ARNAQ objects
 #'
-#' Removes objects that ARNAQ has created from the current session. This is useful to force ARNAQ 
+#' Removes objects that ARNAQ has created from the current session. This is useful to force ARNAQ
 #' to load
 #' files from disk if they have been changed, or to 'clean up' the session for downstream analysis.
 #' Any warnings (such as due to the objects not existing) are suppressed.

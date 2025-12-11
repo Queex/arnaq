@@ -3,9 +3,9 @@
 #' ARNAQ stands for *Analysts' RNA QC*. ARNAQ is a tool for exploring RNA sequencing datasets, with
 #' an eye to differential expression or other analysis. It is designed to make reviewing the data
 #' and isolating potential QC issues as simple and swift as possible.
-#' 
+#'
 #' It is not a replacement for the first line QC performed by sequencing platforms and their
-#' associated tools; but instead to supplement them by considering experimental groups and allowing 
+#' associated tools; but instead to supplement them by considering experimental groups and allowing
 #' a more nuanced approach to potentially problematic samples than a simple pass/fail flag.
 #'
 #' Analysts who handle a lot of RNA projects will benefit from being able to perform these QC steps
