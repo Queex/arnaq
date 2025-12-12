@@ -195,7 +195,7 @@ arnaq <- function(resources.file = "resources.yml",
 
   # Load gtf if available
   if (arnaq.run$genome.file != "None" && arnaq.run$genome.file != "none") {
-    out@rowData <- read.annotation(arnaq.run$genome.file, count.data)
+    rowData(out) <- read.annotation(arnaq.run$genome.file, count.data)
   }
 
   # Sample mask
@@ -215,7 +215,7 @@ arnaq <- function(resources.file = "resources.yml",
   arnaq.run$sample.mask <- sample.mask
 
   # Make gene masks
-  out@meta.data$gene.masks <- gene.masks <- make.gene.masks(count.data, species.gtf,
+  out$gene.masks <- gene.masks <- make.gene.masks(count.data, species.gtf,
                                                             sample.mask = sample.mask, ERCC = ERCC)
   # Do this using the sample mask so as to remove large swathes of erroneous non-zero genes if
   # an outlier has garbage counts
@@ -251,9 +251,10 @@ arnaq <- function(resources.file = "resources.yml",
     max.samples.per.page <- ceiling(n / pages)
   }
 
+  # Create masked SummarizedExperiment class
+  tmp.SE <- out[sample.mask, gene.masks[[gene.mask.name]]]
+
   # Make temp data
-  tmp.sample.metadata <- sample.metadata[sample.mask, , drop=FALSE]
-  tmp.count.data <- count.data[gene.masks[[gene.mask.name]], sample.mask, drop=FALSE]
   if (featureCount.metrics) {
     tmp.read.summary <- arnaq.run$read.summary[, sample.mask, drop=FALSE]
   } else {
@@ -269,15 +270,15 @@ arnaq <- function(resources.file = "resources.yml",
   }
 
   # Export filtered sample metadata
-  save.counts(tmp.sample.metadata,
+  save.counts(colData(tmp.SE),
               paste0(arnaq.run$out.directory, "/", qc.name, "_sample_metadata.txt"))
 
   # Save counts
-  save.counts(tmp.count.data,
+  save.counts(assays(tmp.SE)$count,
               paste0(arnaq.run$out.directory, "/", qc.name, "_gene_count_table.txt"))
   if (ERCC) {
     read.ERCC.table(ercc.table)
-    arnaq.run$ERCC.data <- count.data[gene.masks$ERCC, sample.mask, drop=FALSE]
+    arnaq.run$ERCC.data <- assays(out)$count[gene.masks$ERCC, sample.mask, drop=FALSE]
     if (any(colSums(arnaq.run$ERCC.data) == 0)) {
       warning("At least one sample has no ERCC counts.")
     }
@@ -286,7 +287,7 @@ arnaq <- function(resources.file = "resources.yml",
   }
 
   # Save detected genes
-  tmp.detected <- cbind(Genes = colSums(tmp.count.data > 0))
+  tmp.detected <- data.frame(Genes = colSums(assay(tmp.SE)$count > 0))
   if (ERCC) {
     tmp.detected <- cbind(tmp.detected, ERCC = colSums(arnaq.run$ERCC.data > 0))
   }
@@ -295,17 +296,18 @@ arnaq <- function(resources.file = "resources.yml",
 
   # Define treatment groups
   if (is.null(treat.groups)) {
-    treat.cols <- 4:ncol(tmp.sample.metadata)
+    treat.cols <- 4:ncol(colData(tmp.SE))
   } else {
-    treat.cols <-
-      (seq_len(ncol(tmp.sample.metadata)))[colnames(tmp.sample.metadata) %in% treat.groups]
+    treat.cols <- which(treat.groups, colData(tmp.SE))
   }
   primary.treat.group <- treat.cols[1]
   cat(
     "Considering these columns as Treatments:",
-    paste(colnames(tmp.sample.metadata[treat.cols]), collapse = " "), "\n"
+    paste(colnames(colData(tmp.SE)[treat.cols]), collapse = " "), "\n"
   )
-  cat("Primary Treatment group:", colnames(tmp.sample.metadata)[primary.treat.group], "\n")
+  cat("Primary Treatment group:", primary.treat.group, "\n")
+
+### CARRY ON FROM HERE
 
   # Define columns for PCA
   if (is.null(pca.groups)) {
