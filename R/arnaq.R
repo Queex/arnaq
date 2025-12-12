@@ -165,37 +165,37 @@ arnaq <- function(resources.file = "resources.yml",
                                          paste0("arnaq_template_", template.version, ".rmd"),
                                          package="arnaq")
   }
-  arnaq.report.template <<- arnaq.report.template
+  arnaq.run$report.template <- arnaq.report.template
   arnaq.run$genome.file <- resources[["genome_reference"]]
   arnaq.run$out.directory <- "QC/"
 
-  check.QC.template(arnaq.report.template, template.version)
+  check.QC.template(arnaq.run$report.template, template.version)
 
   cat("\n")
 
   # Create name for this QC run
-  qc.name <<- ifelse(is.null(model.name), arnaq.run$project.id,
+  arnaq.run$qc.name <<- ifelse(is.null(model.name), arnaq.run$project.id,
     paste(arnaq.run$project.id, model.name, sep = "_")
   )
-  cat(paste("This QC run is named:", qc.name, "\n"))
+  cat(paste("This QC run is named:", arnaq.run$qc.name, "\n"))
 
   # Set up output directory
   ensure.directory(arnaq.run$out.directory)
 
   # Load data
-  count.data <<- read.count.data(c("count.data", count.table))
+  count.data <- read.count.data(c("count.data", count.table))
 
   # Read sample metadata
-  sample.metadata <<- read.samples.metadata(c("sample.metadata", sample.file), count.data)
+  sample.metadata <- read.samples.metadata(c("sample.metadata", sample.file), count.data)
 
-  # Rename count.data columns
-  colnames(count.data) <<- sample.metadata$Display
+  # Make SummarizedExperiment object
+  out <- SummarizedExperiment::SummarizedExperiment(assays=list(counts=count.data),
+                                                    colData=sample.metadata,
+                                                    rowData=rownames(count.data))
 
   # Load gtf if available
-  if (arnaq.run$genome.file == "None" || arnaq.run$genome.file == "none") {
-    species.gtf <<- NULL
-  } else {
-    species.gtf <<- read.biotypes(arnaq.run$genome.file)
+  if (arnaq.run$genome.file != "None" && arnaq.run$genome.file != "none") {
+    out@rowData <- read.annotation(arnaq.run$genome.file, count.data)
   }
 
   # Sample mask
@@ -212,10 +212,11 @@ arnaq <- function(resources.file = "resources.yml",
               "\n"))
   }
 
-  assign("sample.mask", sample.mask, 1)
+  arnaq.run$sample.mask <- sample.mask
 
   # Make gene masks
-  gene.masks <<- make.gene.masks(count.data, species.gtf, sample.mask = sample.mask, ERCC = ERCC)
+  out@meta.data$gene.masks <- gene.masks <- make.gene.masks(count.data, species.gtf,
+                                                            sample.mask = sample.mask, ERCC = ERCC)
   # Do this using the sample mask so as to remove large swathes of erroneous non-zero genes if
   # an outlier has garbage counts
 
