@@ -49,7 +49,7 @@ plot_metrics_violin <- function(metric.table, group.data, labels, title, yscale 
 
   metric.table <- cbind(Sample = rownames(metric.table), metric.table)
   dat <- reshape2::melt(metric.table, id.var = "Sample")
-  tmp <- group.data[match(dat$Sample, group.data[, 1]), 2]
+  tmp <- factor(group.data[match(dat$Sample, group.data[, 1]), 2])
   dat <- cbind(dat, Group = tmp)
 
   theplot <- ggplot2::ggplot(dat, ggplot2::aes(x = variable, y = value, fill = Group)) +

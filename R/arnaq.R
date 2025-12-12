@@ -17,6 +17,7 @@
 # Automatically remove Groups with a single level if treat.groups is not specified
 # Look into a better solution for caching data
 # Change logging so that once project and model name are set a proper named log is used
+# Store hclust/dendro object for examination in analysis
 ######################################################
 
 #' Create an ARNAQ Report
@@ -51,7 +52,7 @@
 #' tables and metric tables. The default looks for the file `resources.yml` in your working
 #' directory, and is useful when you
 #' have one project per directory.
-#' @param samples.txt The file containin sample-centric data. The default looks for the file
+#' @param sample.file The file containing sample-centric data. The default looks for the file
 #' `samples.txt` in your working directory, and is useful when you have one project per
 #' directory.
 #' @param model.name An optional model name that allows you to have multiple ARNAQ reports in
@@ -75,7 +76,7 @@
 #' @param svg.export If set to `TRUE`, create an additional directory in the output called
 #' `svg` with svg versions of every plot created in the report, suitable for inclusion in
 #' papers.
-#' @param max.sample.per.page In projects with a large number of samples, some plots will be
+#' @param max.samples.per.page In projects with a large number of samples, some plots will be
 #' spread across multiple 'pages' in the output report, to keep them readable. Alter the default
 #' value to fine-tune the point at which this behaviour will occur.
 #' @param pca.depth How many components to use when preparing PCA plots. Components beyond 2 will
@@ -96,10 +97,11 @@
 #' @seealso \code{\link{make_outlier_mask}}
 #' @seealso `\link{arnaq_clear}`
 #' @examples
+#' \dontrun{
 #' arnaq()
 #' arnaq("some/other/location/resources.yml", "some/other/location/samples.txt")
 #' arnaq(model.name = "outliers removed", sample.mask = some_mask, normalise = "linear")
-#'
+#' }
 #' @export
 arnaq <- function(resources.file = "resources.yml",
                   sample.file = "samples.txt", model.name = NULL, sample.mask = NULL,
@@ -108,18 +110,24 @@ arnaq <- function(resources.file = "resources.yml",
                   ERCC.pairs = list(), ERCC.combined = TRUE, scatter.pairs = list(),
                   gene.mask.name = "Genes") {
 
+  # Set sinks
   clear.sinks()
   sink("arnaq.log", split = TRUE)
 
-  arnaq.version <- "0.1"
-  template.version <- "1.0"
+  # Fix to convince CMD check that we do actually use this package
+  dummy <- function() hexbin::hexbin()
+
+  # Package version info
+  template.version <- "1"
+  arnaq.version <- utils::packageVersion("arnaq")
 
   cat("Starting ARNAQ\n")
-  cat(paste("Script version:", arnaq.version, "\n\n"))
+  cat(paste("Version:", arnaq.version, "\n\n"))
+
+  # Load resources file and check the right lines are there
   resources <- read.resources.file(resources.file)
   required.resources <- c(
-    "project_id", "count_table", "report_template",
-    "resource_dir", "species"
+    "project_id", "count_table", "report_template", "species"
   )
   optional.resources <- c(
     "summary_table", "duplication_table", "metrics_table",
@@ -146,7 +154,6 @@ arnaq <- function(resources.file = "resources.yml",
   duprate.table <- resources[["duplication_table"]]
   metrics.table <- resources[["metrics_table"]]
   ercc.table <- resources[["ercc_concentrations"]]
-  resource.dir <- resources[["resource_dir"]]
   species <- resources[["species"]]
   biotype.conversion <- resources[["biotype_conversion"]]
   if (biotype.conversion == "INTERNAL") {
@@ -160,13 +167,13 @@ arnaq <- function(resources.file = "resources.yml",
   }
   arnaq.report.template <<- arnaq.report.template
   arnaq.run$genome.file <- resources[["genome_reference"]]
-  expected.template.version <- "0.1"
   arnaq.run$out.directory <- "QC/"
 
-  check.QC.template(arnaq.report.template, expected.template.version)
+  check.QC.template(arnaq.report.template, template.version)
 
   cat("\n")
 
+  # Create name for this QC run
   qc.name <<- ifelse(is.null(model.name), arnaq.run$project.id,
     paste(arnaq.run$project.id, model.name, sep = "_")
   )
@@ -188,7 +195,7 @@ arnaq <- function(resources.file = "resources.yml",
   if (arnaq.run$genome.file == "None" || arnaq.run$genome.file == "none") {
     species.gtf <<- NULL
   } else {
-    species.gtf <<- read.biotypes(arnaq.run$genome.file, resource.dir)
+    species.gtf <<- read.biotypes(arnaq.run$genome.file)
   }
 
   # Sample mask
@@ -253,7 +260,7 @@ arnaq <- function(resources.file = "resources.yml",
   }
   if (picard.metrics) {
     tmp.count.metrics <- list(
-      ByBase = arnaq.run$count.metrics$ByBase[sample.mask, , drop=FALSE],
+      ByBases = arnaq.run$count.metrics$ByBases[sample.mask, , drop=FALSE],
       ByOther = arnaq.run$count.metrics$ByOther[sample.mask, , drop=FALSE]
     )
   } else {
@@ -322,7 +329,7 @@ arnaq <- function(resources.file = "resources.yml",
   # Use DESeq2
   if (normalise == "VSN" || normalise == "vsn") {
     cat("Applying variance stabilising normalisation\n")
-    arnaq.run$model.formula <- formula(paste0(
+    arnaq.run$model.formula <- stats::formula(paste0(
       "~",
       paste(colnames(tmp.sample.metadata)[treat.cols], collapse = " + ")
     ))
@@ -415,14 +422,15 @@ make_outlier_mask <- function(outlier.names) {
 
 #' Removes ARNAQ objects
 #'
-#' Removes objects ARNAQ creates from the current session. This is useful to force ARNAQ to load
+#' Removes objects that ARNAQ has created from the current session. This is useful to force ARNAQ
+#' to load
 #' files from disk if they have been changed, or to 'clean up' the session for downstream analysis.
 #' Any warnings (such as due to the objects not existing) are suppressed.
 #'
 #' It is good practice to put `arnaq_clear()` at the top of your script so if you rerun from scratch
 #' you can be sure the data is created afresh.
 #'
-#' @param all If the default of `TRUE`, all of ARNAQ's objects will be removed. Otherwise,
+#' @param remove.all If the default of `TRUE`, all of ARNAQ's objects will be removed. Otherwise,
 #' `count.data`, `gene.masks`, `sample.mask` and `sample.metadata` will be kept, as the objects
 #' needed for downstream analysis.
 #'

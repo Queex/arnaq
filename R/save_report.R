@@ -35,18 +35,19 @@ arnaq_report <- function(arnaq.run = arnaq.run,
   if (featureCount.metrics) {
     cat("Making barplots\n")
     all_plots$barplots_ps <- plot_counts_barplot(read.summary, , max.samples.per.page)
-    all_plots$barplots2_ps <- plot_counts_barplot(read.summary, , max.samples.per.page, prop = TRUE)
+    all_plots$barplots2_ps <- plot_counts_barplot(read.summary, , max.samples.per.page,
+                                                  proportional = TRUE)
   }
 
   # violin plots of extra metrics
   if (picard.metrics) {
-    tmp <- plot_all_metrics_violin(arnaq.run$count.metrics, primary.treat.group)
+    tmp <- plot_all_metrics_violin(count.metrics, primary.treat.group)
     all_plots$violin1 <- tmp[[1]]
     all_plots$violin2 <- tmp[[2]]
   }
 
   # Transformation plots
-  if (normalised == "VSN") {
+  if (normalised == "VSN" || normalised == "vsn") {
     cat("Making normalisation plot\n")
     all_plots$norm_plot <- plot_meanSdPlot(as.matrix(norm.data))
     # The difference between this and norm.data is that this method is unblinded

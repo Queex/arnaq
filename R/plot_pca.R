@@ -147,7 +147,7 @@ plot_PCA_group <- function(PC.norm, PC.vars, groups, groupName, components = 1:2
 # Helper function to calculate PCA, returning a list of useful values.
 calc.pca <- function(data) {
   cat("Calculating PCA\n")
-  pca.norm <- prcomp(t(data))
+  pca.norm <- stats::prcomp(t(data))
   PC.norm <- data.frame(pca.norm$x)
 
   var.cap <- summary(pca.norm)

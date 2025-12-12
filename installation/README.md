@@ -3,19 +3,19 @@
 ## Installing dependencies
 
 Apart from the R package requirements, ARNAQ also needs [pandoc](https://pandoc.org)
-on the system. If you are using Linux, it is simple and convenient to use
+installed on the system. If you are using Linux, it is simple and convenient to use
 [conda](https://anaconda.org/anaconda/conda) to
 create an environment with `pandoc` and the required R packages.
 
 ### Installing dependencies with conda
 
 The file `ARNAQ_env.yml` can be used with `conda` to set up a suitable environment. The enviroment
-file can be found [here](https://github.com/Queex/arnaq/blob/main/inst/extdata/ARNAQ_env_1.0.yml).
+file can be found [as part of the github repository](https://github.com/Queex/arnaq/blob/main/inst/extdata/ARNAQ_env_1.yml).
 From the command line:
 
 ```{bash conda_1, eval=FALSE}
-conda env create -f ARNAQ_env_1.0.yml
-conda activate arnaq_1.0
+conda env create -f ARNAQ_env_1.yml
+conda activate arnaq_1
 ```
 
 When you are done, you can use the usual conda command to return to the standard environment.
@@ -29,21 +29,14 @@ conda deactivate
 Several of ARNAQ's required packages are not available for Windows through bioconda. For Windows
 installation, or if you do not use conda on your system, a manual installation needs to be done.
 
-First install pandoc, from [here](https://pandoc.org/installing.html).
+First install pandoc, from
+[https://pandoc.org/installing.html](https://pandoc.org/installing.html).
 
 Then make sure the `devtools` package is installed:
 
 ```{r pre_install, eval=FALSE}
 install.packages("devtools")
 ```
-
-#### Caveats
-
-As of writing this guide, several dependencies of dependencies do not seem to be available for R
-version 4.4 via
-this install method. You can try installing them from Bioconductor manually, or use a previous
-version of R. If you follow the latter method, one package requires R 4.4 and up, which will raise
-a warning, but this does not seem to prevent ARNAQ from running.
 
 ## Installing ARNAQ from github
 
@@ -75,7 +68,8 @@ The same function can also be used to create copies of the other two files, if y
 them.
 
 These are stored as files outside R in order to make it possible for them to be automatically
-generated (or at least generated in part) by an upstream pipeline.
+generated (or at least generated in part) by an upstream pipeline, and to provide a record of
+the settings used outside the R session.
 
 ## External Support Files (.gtf)
 
@@ -86,10 +80,10 @@ genome you intend to use ARNAQ with. They are not included in ARNAQ's distributi
 specific for your mapping pipeline and match the gene identifiers in your count files.
 
 Specifically, ARNAQ presumes that Ensembl `.gtf` files for the organism are available. These should
-include identifiers drawn from the same set as the gene identifiers uses in the count tables. There
+include identifiers drawn from the same set as the gene identifiers used in the count tables. There
 should be a 'type' field, so ARNAQ can identify the gene-level entries. For the biotype portions of
 ARNAQ output, there should also be a 'gene_biotype' field. You may wish to filter the Ensembl files
-to just the entries with a `type` of `"gene"`, to reduce the size of the file and make ARNAQ runs
+to just the entries with a `type` of `"gene"`, to reduce the size of the file so ARNAQ runs
 faster, but it is not required.
 
 You will only need one such file for each reference genome you are working with.
@@ -115,22 +109,17 @@ If your directory looks like this:
     └── GrCm39.20240317.gtf
 ```
 
-The matching lines in `resources.yml` would be:
+The matching line in `resources.yml` would be:
 
 ```{text}
-resource_dir: /some/directory/you/have/
-genome_reference: GRCh38
+genome_reference: /some/directory/you/have/GRCh38
 ```
 
 or
 
 ```{text}
-resource_dir: /some/directory/you/have/
-genome_reference: GRCm39
+genome_reference: /some/directory/you/have/GRCm39
 ```
-
-The directory path should be an absolute path; so you don't have to adjust it between projects in
-different directories.
 
 ## ERCC Reference
 

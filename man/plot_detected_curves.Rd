@@ -4,7 +4,12 @@
 \alias{plot_detected_curves}
 \title{Create a plot showing detected genes}
 \usage{
-plot_detected_curves(masked.cpm.data, highlight = TRUE, thresh = 8, pivot = 1)
+plot_detected_curves(
+  masked.cpm.data,
+  highlight = TRUE,
+  threshold = 8,
+  pivot = 1
+)
 }
 \arguments{
 \item{masked.cpm.data}{The matrix of cpm data, masked to remove unwanted samples, created
@@ -14,9 +19,9 @@ main ARNAQ workflow.}
 \item{highlight}{When \code{TRUE}, highlighting will be performed. When \code{FALSE}, all samples will be
 drawn in colour, and will appear in the legend.}
 
-\item{pivot}{What count to use when determining the worst samples.}
-
 \item{threshold}{The number of 'worst' samples to highlight, out of the total.}
+
+\item{pivot}{What count to use when determining the worst samples.}
 }
 \value{
 A plot showing detected genes at different count levels, for each sample, with

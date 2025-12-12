@@ -27,7 +27,7 @@ plot_ERCC_observed_scatter <- function(read_matrix, sample.metadata, mix,
   dat$Expected <- expected / sum(expected)
   dat <- dat[dat$Observed > 0, ] # Remove 0 observed
 
-  dat.corr <- round(cor(dat$Expected, dat$Observed), 3)
+  dat.corr <- round(stats::cor(dat$Expected, dat$Observed), 3)
 
   the.plot <- ggplot2::ggplot(dat, ggplot2::aes(x = Expected, y = Observed, colour = Sample)) +
     ggplot2::geom_point() +
@@ -127,10 +127,11 @@ plot_ERCC_fc_scatter <- function(read_matrix, mix1_column, mix2_column,
   # find correlation
   not.nan.mask <- !is.nan(logratio)
   all.quantity.mask <- is.finite(logratio)
-  high.quantity.mask <- all.quantity.mask & (net_concentration > median(net_concentration))
+  high.quantity.mask <- all.quantity.mask & (net_concentration > stats::median(net_concentration))
 
-  high.quantity.cor <- round(cor(logratio[high.quantity.mask], expected[high.quantity.mask]), 3)
-  all.quantity.cor <- round(cor(logratio[all.quantity.mask], expected[all.quantity.mask]), 3)
+  high.quantity.cor <- round(stats::cor(logratio[high.quantity.mask],
+                                        expected[high.quantity.mask]), 3)
+  all.quantity.cor <- round(stats::cor(logratio[all.quantity.mask], expected[all.quantity.mask]), 3)
 
   # make table
   dat <- data.frame(Observed = logratio, Expected = expected, Concentration = net_concentration)
